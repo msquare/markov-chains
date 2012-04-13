@@ -18,6 +18,6 @@ public interface MarkovChain {
 
 	void clearPreviousToken();
 
-	String getSeparatorRegex();
+	String getPunctuationRegex();
 
 }

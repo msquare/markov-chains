@@ -16,7 +16,7 @@ public class MarkovTextGeneratorImpl implements MarkovTextGenerator {
 			String token = markovChain.next(previousToken);
 			previousToken = token;
 			if (token != null) {
-				if (!token.matches(markovChain.getSeparatorRegex())) {
+				if (!token.matches(markovChain.getPunctuationRegex())) {
 					generated.append(" ");
 				}
 				generated.append(token);

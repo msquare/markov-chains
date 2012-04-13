@@ -27,7 +27,8 @@ public class MarkovChainImpl implements MarkovChain {
 		if (tokenCount != null) {
 			Double probability = 0.0;
 			for (Map.Entry<String, Double> entry : tokenCount.entrySet()) {
-				probability += entry.getValue() / totalTokenCount(tokenCount);
+				probability += calculateProbability(entry.getValue(),
+						tokenCount);
 				if (random < probability) {
 					return entry.getKey();
 				}
@@ -61,12 +62,17 @@ public class MarkovChainImpl implements MarkovChain {
 	public double probability(final String after, final String token) {
 		Map<String, Double> tokenCount = dictionary.get(token);
 		if (tokenCount != null) {
-			Double probability = tokenCount.get(after);
-			if (probability != null) {
-				return probability / totalTokenCount(tokenCount);
+			Double count = tokenCount.get(after);
+			if (count != null) {
+				return calculateProbability(count, tokenCount);
 			}
 		}
 		return 0.0;
+	}
+
+	private double calculateProbability(final Double count,
+			final Map<String, Double> tokenCount) {
+		return count / totalTokenCount(tokenCount);
 	}
 
 	private Double totalTokenCount(final Map<String, Double> tokenCount) {
@@ -93,7 +99,7 @@ public class MarkovChainImpl implements MarkovChain {
 	}
 
 	@Override
-	public String getSeparatorRegex() {
-		return tokenizer.getSeparatorRegex();
+	public String getPunctuationRegex() {
+		return tokenizer.getPunctuationRegex();
 	}
 }

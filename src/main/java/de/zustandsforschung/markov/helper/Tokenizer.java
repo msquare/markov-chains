@@ -6,6 +6,6 @@ public interface Tokenizer {
 
 	List<String> tokenize(String input);
 
-	String getSeparatorRegex();
+	String getPunctuationRegex();
 
 }

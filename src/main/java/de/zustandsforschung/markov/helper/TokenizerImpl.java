@@ -20,7 +20,7 @@ public class TokenizerImpl implements Tokenizer {
 	}
 
 	@Override
-	public String getSeparatorRegex() {
+	public String getPunctuationRegex() {
 		return PUNCTUATION_REGEX;
 	}
 
