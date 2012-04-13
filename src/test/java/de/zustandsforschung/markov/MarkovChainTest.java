@@ -22,21 +22,21 @@ public class MarkovChainTest {
 	public void testNextSingle() {
 		markovChain.setRandomGenerator(new DeterministicRandomGenerator(0.7));
 		markovChain.addTokens(Arrays.asList("only"));
-		assertEquals(null, markovChain.next("only"));
+		assertEquals(null, markovChain.next(Arrays.asList("only")));
 	}
 
 	@Test
 	public void testNextTwo() {
 		markovChain.setRandomGenerator(new DeterministicRandomGenerator(0.7));
 		markovChain.addTokens(Arrays.asList("first", "second"));
-		assertEquals("second", markovChain.next("first"));
+		assertEquals("second", markovChain.next(Arrays.asList("first")));
 	}
 
 	@Test
 	public void testNext50Percent() {
 		markovChain.setRandomGenerator(new DeterministicRandomGenerator(0.7));
 		markovChain.addTokens(Arrays.asList("one", "two", "one", "three"));
-		assertEquals("three", markovChain.next("one"));
+		assertEquals("three", markovChain.next(Arrays.asList("one")));
 	}
 
 	@Test
@@ -44,7 +44,16 @@ public class MarkovChainTest {
 		markovChain.setRandomGenerator(new DeterministicRandomGenerator(0.7));
 		markovChain.addTokens(Arrays.asList("one", "two", "one", "two", "one",
 				"three"));
-		assertEquals("three", markovChain.next("one"));
+		assertEquals("three", markovChain.next(Arrays.asList("one")));
+	}
+
+	@Test
+	public void testNext50PercentOrder2() {
+		markovChain.setRandomGenerator(new DeterministicRandomGenerator(0.7));
+		markovChain.setOrder(2);
+		markovChain.addTokens(Arrays.asList("one", "two", "one", "two", "one",
+				"two", "three"));
+		assertEquals("three", markovChain.next(Arrays.asList("one", "two")));
 	}
 
 	@Test
@@ -73,11 +82,19 @@ public class MarkovChainTest {
 	}
 
 	@Test
+	public void testProbability100PercentOrder2() {
+		markovChain.setOrder(2);
+		markovChain.addTokens(Arrays.asList("first", "second", "third"));
+		assertEquals(1.0, markovChain.probability("third", "first", "second"),
+				0.0);
+	}
+
+	@Test
 	public void testAddTokensWithoutClear() {
 		markovChain.setRandomGenerator(new DeterministicRandomGenerator(0.7));
 		markovChain.addTokens(Arrays.asList("first"));
 		markovChain.addTokens(Arrays.asList("second"));
-		assertEquals("second", markovChain.next("first"));
+		assertEquals("second", markovChain.next(Arrays.asList("first")));
 	}
 
 	@Test
@@ -86,7 +103,7 @@ public class MarkovChainTest {
 		markovChain.addTokens(Arrays.asList("first"));
 		markovChain.clearPreviousToken();
 		markovChain.addTokens(Arrays.asList("second"));
-		assertEquals(null, markovChain.next("first"));
+		assertEquals(null, markovChain.next(Arrays.asList("first")));
 	}
 
 }

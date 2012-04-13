@@ -1,6 +1,8 @@
 package de.zustandsforschung.markov;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -10,20 +12,23 @@ import de.zustandsforschung.markov.random.RandomGenerator;
 
 public class MarkovChainImpl implements MarkovChain {
 
-	private final Map<String, Map<String, Double>> dictionary;
+	private final Map<List<String>, Map<String, Double>> dictionary;
 	private RandomGenerator randomGenerator;
-	private String previousToken = null;
-	private Tokenizer tokenizer = null;
+	private final List<String> previousTokens;
+	private final Tokenizer tokenizer;
+	private int order;
 
 	public MarkovChainImpl() {
-		dictionary = new HashMap<String, Map<String, Double>>();
+		dictionary = new HashMap<List<String>, Map<String, Double>>();
 		tokenizer = new TokenizerImpl();
+		previousTokens = new LinkedList<String>();
+		order = 1;
 	}
 
 	@Override
-	public String next(final String token) {
+	public String next(final List<String> tokens) {
 		Double random = randomGenerator.next();
-		Map<String, Double> tokenCount = dictionary.get(token);
+		Map<String, Double> tokenCount = dictionary.get(tokens);
 		if (tokenCount != null) {
 			Double probability = 0.0;
 			for (Map.Entry<String, Double> entry : tokenCount.entrySet()) {
@@ -40,17 +45,25 @@ public class MarkovChainImpl implements MarkovChain {
 	@Override
 	public void addTokens(final List<String> tokens) {
 		for (String token : tokens) {
-			if (dictionary.get(previousToken) == null) {
-				dictionary.put(previousToken, new HashMap<String, Double>());
+			if (dictionary.get(previousTokens) == null) {
+				dictionary.put(createDictionaryKey(),
+						new HashMap<String, Double>());
 			}
 			Map<String, Double> tokenProbabilities = dictionary
-					.get(previousToken);
+					.get(previousTokens);
 			if (tokenProbabilities.get(token) == null) {
 				tokenProbabilities.put(token, Double.valueOf(0));
 			}
 			tokenProbabilities.put(token, tokenProbabilities.get(token) + 1);
-			previousToken = token;
+			if (previousTokens.size() >= order) {
+				previousTokens.remove(0);
+			}
+			previousTokens.add(token);
 		}
+	}
+
+	private List<String> createDictionaryKey() {
+		return (List<String>) ((LinkedList<String>) previousTokens).clone();
 	}
 
 	@Override
@@ -59,8 +72,8 @@ public class MarkovChainImpl implements MarkovChain {
 	}
 
 	@Override
-	public double probability(final String after, final String token) {
-		Map<String, Double> tokenCount = dictionary.get(token);
+	public double probability(final String after, final String... tokens) {
+		Map<String, Double> tokenCount = dictionary.get(Arrays.asList(tokens));
 		if (tokenCount != null) {
 			Double count = tokenCount.get(after);
 			if (count != null) {
@@ -90,7 +103,7 @@ public class MarkovChainImpl implements MarkovChain {
 
 	@Override
 	public void clearPreviousToken() {
-		previousToken = null;
+		previousTokens.clear();
 	}
 
 	@Override
@@ -101,5 +114,29 @@ public class MarkovChainImpl implements MarkovChain {
 	@Override
 	public String getPunctuationRegex() {
 		return tokenizer.getPunctuationRegex();
+	}
+
+	@Override
+	public void setOrder(final int order) {
+		this.order = order;
+	}
+
+	@Override
+	public int getOrder() {
+		return order;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public List<String> findStartTokens(final String startToken) {
+		for (List<String> tokens : dictionary.keySet()) {
+			if (tokens.size() > 0
+					&& tokens.get(tokens.size() - 1).equals(startToken)) {
+				return tokens;
+			}
+		}
+		return null;
 	}
 }

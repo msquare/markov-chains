@@ -40,6 +40,17 @@ public class MarkovTextGeneratorTest {
 	}
 
 	@Test
+	public void testGenerateOrder2() {
+		MarkovChain markovChain = new MarkovChainImpl();
+		markovChain.setRandomGenerator(new RandomGeneratorImpl());
+		markovChain.setOrder(2);
+		markovChain.addTokens(Arrays.asList("one", "two", "three"));
+
+		MarkovTextGenerator generator = new MarkovTextGeneratorImpl(markovChain);
+		assertEquals("one two three", generator.generate(3));
+	}
+
+	@Test
 	public void testGenerateSpacesBeforePunctuation() {
 		MarkovChain markovChain = new MarkovChainImpl();
 		markovChain.setRandomGenerator(new RandomGeneratorImpl());
@@ -47,6 +58,29 @@ public class MarkovTextGeneratorTest {
 
 		MarkovTextGenerator generator = new MarkovTextGeneratorImpl(markovChain);
 		assertEquals("one,", generator.generate(2));
+	}
+
+	@Test
+	public void testGenerateUseStartToken() {
+		MarkovChain markovChain = new MarkovChainImpl();
+		markovChain.setRandomGenerator(new RandomGeneratorImpl());
+		markovChain.addTokens(Arrays.asList("one", "two", "three"));
+
+		MarkovTextGenerator generator = new MarkovTextGeneratorImpl(
+				markovChain, "two");
+		assertEquals("three", generator.generate(1));
+	}
+
+	@Test
+	public void testGenerateUseStartTokenOrder2() {
+		MarkovChain markovChain = new MarkovChainImpl();
+		markovChain.setRandomGenerator(new RandomGeneratorImpl());
+		markovChain.setOrder(2);
+		markovChain.addTokens(Arrays.asList("one", "two", "three"));
+
+		MarkovTextGenerator generator = new MarkovTextGeneratorImpl(
+				markovChain, "two");
+		assertEquals("three", generator.generate(1));
 	}
 
 }

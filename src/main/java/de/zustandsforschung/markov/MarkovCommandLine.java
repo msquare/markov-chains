@@ -13,21 +13,25 @@ public final class MarkovCommandLine {
 	}
 
 	public static void main(final String[] args) throws IOException {
-		MarkovChain markovChain = fromFile(new File(args[0]));
+		MarkovChain markovChain = new MarkovChainImpl();
+		markovChain.setRandomGenerator(new RandomGeneratorImpl());
+		markovChain.setOrder(Integer.valueOf(args[2]));
+		fromFile(markovChain, new File(args[0]));
 
-		MarkovTextGenerator generator = new MarkovTextGeneratorImpl(markovChain);
+		MarkovTextGenerator generator = new MarkovTextGeneratorImpl(
+				markovChain, args[3]);
+		if (args.length > 4 && "true".equals(args[4])) {
+			System.out.print(args[3] + " ");
+		}
 		System.out.println(generator.generate(Integer.valueOf(args[1])));
 	}
 
-	public static MarkovChain fromFile(final File file) throws IOException {
-		MarkovChain markovChain = new MarkovChainImpl();
-		markovChain.setRandomGenerator(new RandomGeneratorImpl());
-
+	public static void fromFile(final MarkovChain markovChain, final File file)
+			throws IOException {
 		BufferedReader br = new BufferedReader(new FileReader(file));
 		String line;
 		while ((line = br.readLine()) != null) {
 			markovChain.addTokens(line);
 		}
-		return markovChain;
 	}
 }
