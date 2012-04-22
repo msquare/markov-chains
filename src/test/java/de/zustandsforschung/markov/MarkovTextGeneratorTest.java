@@ -6,6 +6,7 @@ import java.util.Arrays;
 
 import org.junit.Test;
 
+import de.zustandsforschung.markov.model.Tokens;
 import de.zustandsforschung.markov.random.RandomGeneratorImpl;
 
 public class MarkovTextGeneratorTest {
@@ -23,7 +24,7 @@ public class MarkovTextGeneratorTest {
 	public void testGenerateSingle() {
 		MarkovChain markovChain = new MarkovChainImpl();
 		markovChain.setRandomGenerator(new RandomGeneratorImpl());
-		markovChain.addTokens(Arrays.asList("one"));
+		markovChain.addTokens(new Tokens("one"));
 
 		MarkovTextGenerator generator = new MarkovTextGeneratorImpl(markovChain);
 		assertEquals("one", generator.generate(1));
@@ -33,7 +34,7 @@ public class MarkovTextGeneratorTest {
 	public void testGenerateTwo() {
 		MarkovChain markovChain = new MarkovChainImpl();
 		markovChain.setRandomGenerator(new RandomGeneratorImpl());
-		markovChain.addTokens(Arrays.asList("one", "two"));
+		markovChain.addTokens(new Tokens("one", "two"));
 
 		MarkovTextGenerator generator = new MarkovTextGeneratorImpl(markovChain);
 		assertEquals("one two", generator.generate(2));
@@ -44,7 +45,7 @@ public class MarkovTextGeneratorTest {
 		MarkovChain markovChain = new MarkovChainImpl();
 		markovChain.setRandomGenerator(new RandomGeneratorImpl());
 		markovChain.setOrder(2);
-		markovChain.addTokens(Arrays.asList("one", "two", "three"));
+		markovChain.addTokens(new Tokens("one", "two", "three"));
 
 		MarkovTextGenerator generator = new MarkovTextGeneratorImpl(markovChain);
 		assertEquals("one two three", generator.generate(3));
@@ -54,7 +55,7 @@ public class MarkovTextGeneratorTest {
 	public void testGenerateSpacesBeforePunctuation() {
 		MarkovChain markovChain = new MarkovChainImpl();
 		markovChain.setRandomGenerator(new RandomGeneratorImpl());
-		markovChain.addTokens(Arrays.asList("one", ","));
+		markovChain.addTokens(new Tokens("one", ","));
 
 		MarkovTextGenerator generator = new MarkovTextGeneratorImpl(markovChain);
 		assertEquals("one,", generator.generate(2));
@@ -64,7 +65,7 @@ public class MarkovTextGeneratorTest {
 	public void testGenerateUseStartToken() {
 		MarkovChain markovChain = new MarkovChainImpl();
 		markovChain.setRandomGenerator(new RandomGeneratorImpl());
-		markovChain.addTokens(Arrays.asList("one", "two", "three"));
+		markovChain.addTokens(new Tokens("one", "two", "three"));
 
 		MarkovTextGenerator generator = new MarkovTextGeneratorImpl(
 				markovChain, "two");
@@ -76,7 +77,7 @@ public class MarkovTextGeneratorTest {
 		MarkovChain markovChain = new MarkovChainImpl();
 		markovChain.setRandomGenerator(new RandomGeneratorImpl());
 		markovChain.setOrder(2);
-		markovChain.addTokens(Arrays.asList("one", "two", "three"));
+		markovChain.addTokens(new Tokens("one", "two", "three"));
 
 		MarkovTextGenerator generator = new MarkovTextGeneratorImpl(
 				markovChain, "two");

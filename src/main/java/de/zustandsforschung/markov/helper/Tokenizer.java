@@ -1,10 +1,10 @@
 package de.zustandsforschung.markov.helper;
 
-import java.util.List;
+import de.zustandsforschung.markov.model.Tokens;
 
 public interface Tokenizer {
 
-	List<String> tokenize(String input);
+	Tokens tokenize(String input);
 
 	String getPunctuationRegex();
 

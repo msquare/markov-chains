@@ -8,25 +8,27 @@ import java.util.Map;
 
 import de.zustandsforschung.markov.helper.Tokenizer;
 import de.zustandsforschung.markov.helper.TokenizerImpl;
+import de.zustandsforschung.markov.model.Dictionary;
+import de.zustandsforschung.markov.model.Tokens;
 import de.zustandsforschung.markov.random.RandomGenerator;
 
 public class MarkovChainImpl implements MarkovChain {
 
-	private final Map<List<String>, Map<String, Double>> dictionary;
+	private final Dictionary dictionary;
 	private RandomGenerator randomGenerator;
-	private final List<String> previousTokens;
+	private final Tokens previousTokens;
 	private final Tokenizer tokenizer;
 	private int order;
 
 	public MarkovChainImpl() {
-		dictionary = new HashMap<List<String>, Map<String, Double>>();
+		dictionary = new Dictionary();
+		previousTokens = new Tokens();
 		tokenizer = new TokenizerImpl();
-		previousTokens = new LinkedList<String>();
 		order = 1;
 	}
 
 	@Override
-	public String next(final List<String> tokens) {
+	public String next(final Tokens tokens) {
 		Double random = randomGenerator.next();
 		Map<String, Double> tokenCount = dictionary.get(tokens);
 		if (tokenCount != null) {
@@ -43,7 +45,7 @@ public class MarkovChainImpl implements MarkovChain {
 	}
 
 	@Override
-	public void addTokens(final List<String> tokens) {
+	public void addTokens(final Tokens tokens) {
 		for (String token : tokens) {
 			if (dictionary.get(previousTokens) == null) {
 				dictionary.put(createDictionaryKey(),
@@ -62,8 +64,8 @@ public class MarkovChainImpl implements MarkovChain {
 		}
 	}
 
-	private List<String> createDictionaryKey() {
-		return (List<String>) ((LinkedList<String>) previousTokens).clone();
+	private Tokens createDictionaryKey() {
+		return previousTokens.duplicate();
 	}
 
 	@Override
@@ -73,7 +75,7 @@ public class MarkovChainImpl implements MarkovChain {
 
 	@Override
 	public double probability(final String after, final String... tokens) {
-		Map<String, Double> tokenCount = dictionary.get(Arrays.asList(tokens));
+		Map<String, Double> tokenCount = dictionary.get(new Tokens(Arrays.asList(tokens)));
 		if (tokenCount != null) {
 			Double count = tokenCount.get(after);
 			if (count != null) {
@@ -130,8 +132,8 @@ public class MarkovChainImpl implements MarkovChain {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public List<String> findStartTokens(final String startToken) {
-		for (List<String> tokens : dictionary.keySet()) {
+	public Tokens findStartTokens(final String startToken) {
+		for (Tokens tokens : dictionary.keySet()) {
 			if (tokens.size() > 0
 					&& tokens.get(tokens.size() - 1).equals(startToken)) {
 				return tokens;

@@ -10,6 +10,7 @@ import java.util.Arrays;
 
 import org.junit.Test;
 
+import de.zustandsforschung.markov.model.Tokens;
 import de.zustandsforschung.markov.random.RandomGeneratorImpl;
 
 public class MarkovCommandLineTest {
@@ -26,7 +27,7 @@ public class MarkovCommandLineTest {
 		markovChain.setRandomGenerator(new RandomGeneratorImpl());
 		MarkovCommandLine.fromFile(markovChain, tempFile);
 
-		assertEquals("two", markovChain.next(Arrays.asList("one")));
+		assertEquals("two", markovChain.next(new Tokens("one")));
 	}
 
 }

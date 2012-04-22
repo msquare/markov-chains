@@ -4,13 +4,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import de.zustandsforschung.markov.model.Tokens;
+
 public class TokenizerImpl implements Tokenizer {
 
 	public static final String PUNCTUATION_REGEX = "([\\.,!\\?\";])";
 
 	@Override
-	public List<String> tokenize(final String input) {
-		final List<String> tokens = new ArrayList<String>();
+	public Tokens tokenize(final String input) {
+		final Tokens tokens = new Tokens();
 		if (input != null && !"".equals(input)) {
 			final String preparedInput = input.replaceAll(PUNCTUATION_REGEX,
 					" $1 ");

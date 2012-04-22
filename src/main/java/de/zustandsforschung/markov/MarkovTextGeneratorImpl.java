@@ -3,6 +3,8 @@ package de.zustandsforschung.markov;
 import java.util.LinkedList;
 import java.util.List;
 
+import de.zustandsforschung.markov.model.Tokens;
+
 public class MarkovTextGeneratorImpl implements MarkovTextGenerator {
 
 	private final MarkovChain markovChain;
@@ -22,7 +24,7 @@ public class MarkovTextGeneratorImpl implements MarkovTextGenerator {
 	@Override
 	public String generate(final int numTokens) {
 		StringBuffer generated = new StringBuffer();
-		List<String> previousTokens = new LinkedList<String>();
+		Tokens previousTokens = new Tokens();
 		if (startToken != null) {
 			previousTokens = markovChain.findStartTokens(startToken);
 		}

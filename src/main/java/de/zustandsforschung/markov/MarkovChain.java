@@ -2,13 +2,14 @@ package de.zustandsforschung.markov;
 
 import java.util.List;
 
+import de.zustandsforschung.markov.model.Tokens;
 import de.zustandsforschung.markov.random.RandomGenerator;
 
 public interface MarkovChain {
 
-	String next(List<String> tokens);
+	String next(Tokens tokens);
 
-	void addTokens(List<String> tokens);
+	void addTokens(Tokens tokens);
 
 	void addTokens(String string);
 
@@ -33,6 +34,6 @@ public interface MarkovChain {
 	 *            starts after this token).
 	 * @return List of tokens where the first element is the start token.
 	 */
-	List<String> findStartTokens(String startToken);
+	Tokens findStartTokens(String startToken);
 
 }
