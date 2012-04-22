@@ -1,7 +1,5 @@
 package de.zustandsforschung.markov;
 
-import java.util.List;
-
 import de.zustandsforschung.markov.model.Tokens;
 import de.zustandsforschung.markov.random.RandomGenerator;
 

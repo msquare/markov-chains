@@ -40,7 +40,8 @@ public class Tokens implements Iterable<String> {
 	}
 
 	public Tokens duplicate() {
-		Tokens duplicate = new Tokens((List<String>) ((LinkedList) tokens).clone());
+		@SuppressWarnings("unchecked")
+		Tokens duplicate = new Tokens((List<String>) ((LinkedList<String>) tokens).clone());
 		return duplicate;
 	}
 
@@ -52,8 +53,8 @@ public class Tokens implements Iterable<String> {
 		return tokens.get(i);
 	}
 
-	public void addAll(List<String> tokensAsList) {
-		tokens.addAll(tokensAsList);
+	public void addAll(Tokens tokens) {
+		this.tokens.addAll(tokens.tokens);
 		
 	}
 

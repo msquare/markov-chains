@@ -1,8 +1,5 @@
 package de.zustandsforschung.markov;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import de.zustandsforschung.markov.model.Tokens;
 
 public class MarkovTextGeneratorImpl implements MarkovTextGenerator {

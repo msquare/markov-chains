@@ -1,9 +1,6 @@
 package de.zustandsforschung.markov;
 
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 import de.zustandsforschung.markov.helper.Tokenizer;
@@ -75,7 +72,7 @@ public class MarkovChainImpl implements MarkovChain {
 
 	@Override
 	public double probability(final String after, final String... tokens) {
-		Map<String, Double> tokenCount = dictionary.get(new Tokens(Arrays.asList(tokens)));
+		Map<String, Double> tokenCount = dictionary.get(new Tokens(tokens));
 		if (tokenCount != null) {
 			Double count = tokenCount.get(after);
 			if (count != null) {

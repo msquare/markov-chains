@@ -1,9 +1,5 @@
 package de.zustandsforschung.markov.helper;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import de.zustandsforschung.markov.model.Tokens;
 
 public class TokenizerImpl implements Tokenizer {
@@ -16,7 +12,7 @@ public class TokenizerImpl implements Tokenizer {
 		if (input != null && !"".equals(input)) {
 			final String preparedInput = input.replaceAll(PUNCTUATION_REGEX,
 					" $1 ");
-			tokens.addAll(Arrays.asList(preparedInput.split(" +")));
+			tokens.addAll(new Tokens(preparedInput.split(" +")));
 		}
 		return tokens;
 	}
