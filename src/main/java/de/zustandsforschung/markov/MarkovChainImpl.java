@@ -1,11 +1,11 @@
 package de.zustandsforschung.markov;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import de.zustandsforschung.markov.helper.Tokenizer;
 import de.zustandsforschung.markov.helper.TokenizerImpl;
 import de.zustandsforschung.markov.model.Dictionary;
+import de.zustandsforschung.markov.model.Occurrences;
 import de.zustandsforschung.markov.model.Tokens;
 import de.zustandsforschung.markov.random.RandomGenerator;
 
@@ -27,12 +27,12 @@ public class MarkovChainImpl implements MarkovChain {
 	@Override
 	public String next(final Tokens tokens) {
 		Double random = randomGenerator.next();
-		Map<String, Double> tokenCount = dictionary.get(tokens);
-		if (tokenCount != null) {
+		Occurrences occurrences = dictionary.get(tokens);
+		if (occurrences != null) {
 			Double probability = 0.0;
-			for (Map.Entry<String, Double> entry : tokenCount.entrySet()) {
+			for (Map.Entry<String, Double> entry : occurrences.entrySet()) {
 				probability += calculateProbability(entry.getValue(),
-						tokenCount);
+						occurrences);
 				if (random < probability) {
 					return entry.getKey();
 				}
@@ -45,15 +45,13 @@ public class MarkovChainImpl implements MarkovChain {
 	public void addTokens(final Tokens tokens) {
 		for (String token : tokens) {
 			if (dictionary.get(previousTokens) == null) {
-				dictionary.put(createDictionaryKey(),
-						new HashMap<String, Double>());
+				dictionary.put(createDictionaryKey(), new Occurrences());
 			}
-			Map<String, Double> tokenProbabilities = dictionary
-					.get(previousTokens);
-			if (tokenProbabilities.get(token) == null) {
-				tokenProbabilities.put(token, Double.valueOf(0));
+			Occurrences occurrences = dictionary.get(previousTokens);
+			if (occurrences.get(token) == null) {
+				occurrences.put(token, Double.valueOf(0));
 			}
-			tokenProbabilities.put(token, tokenProbabilities.get(token) + 1);
+			occurrences.put(token, occurrences.get(token) + 1);
 			if (previousTokens.size() >= order) {
 				previousTokens.remove(0);
 			}
@@ -72,7 +70,7 @@ public class MarkovChainImpl implements MarkovChain {
 
 	@Override
 	public double probability(final String after, final String... tokens) {
-		Map<String, Double> tokenCount = dictionary.get(new Tokens(tokens));
+		Occurrences tokenCount = dictionary.get(new Tokens(tokens));
 		if (tokenCount != null) {
 			Double count = tokenCount.get(after);
 			if (count != null) {
@@ -82,17 +80,9 @@ public class MarkovChainImpl implements MarkovChain {
 		return 0.0;
 	}
 
-	private double calculateProbability(final Double count,
-			final Map<String, Double> tokenCount) {
-		return count / totalTokenCount(tokenCount);
-	}
-
-	private Double totalTokenCount(final Map<String, Double> tokenCount) {
-		Double totalCount = 0.0;
-		for (Double count : tokenCount.values()) {
-			totalCount += count;
-		}
-		return totalCount;
+	private double calculateProbability(final Double occurrence,
+			final Occurrences occurrences) {
+		return occurrence / occurrences.totalCount();
 	}
 
 	@Override
