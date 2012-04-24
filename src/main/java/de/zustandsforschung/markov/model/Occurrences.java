@@ -30,6 +30,13 @@ public class Occurrences {
 		return occurrences.values();
 	}
 
+	public void increaseCount(final String token) {
+		if (occurrences.get(token) == null) {
+			occurrences.put(token, Double.valueOf(0));
+		}
+		occurrences.put(token, occurrences.get(token) + 1);
+	}
+
 	public Double totalCount() {
 		Double totalCount = 0.0;
 		for (Double count : values()) {

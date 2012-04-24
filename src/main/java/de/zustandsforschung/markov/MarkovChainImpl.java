@@ -44,23 +44,25 @@ public class MarkovChainImpl implements MarkovChain {
 	@Override
 	public void addTokens(final Tokens tokens) {
 		for (String token : tokens) {
-			if (dictionary.get(previousTokens) == null) {
-				dictionary.put(createDictionaryKey(), new Occurrences());
-			}
-			Occurrences occurrences = dictionary.get(previousTokens);
-			if (occurrences.get(token) == null) {
-				occurrences.put(token, Double.valueOf(0));
-			}
-			occurrences.put(token, occurrences.get(token) + 1);
-			if (previousTokens.size() >= order) {
-				previousTokens.remove(0);
-			}
-			previousTokens.add(token);
+			addToken(token);
 		}
 	}
 
-	private Tokens createDictionaryKey() {
-		return previousTokens.duplicate();
+	private void addToken(final String token) {
+		addTokenToDictionary(token);
+		updatePreviousToken(token);
+	}
+
+	private void addTokenToDictionary(final String token) {
+		Occurrences occurrences = dictionary.getOrCreate(previousTokens);
+		occurrences.increaseCount(token);
+	}
+
+	private void updatePreviousToken(final String token) {
+		if (previousTokens.size() >= order) {
+			previousTokens.remove(0);
+		}
+		previousTokens.add(token);
 	}
 
 	@Override
