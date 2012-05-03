@@ -32,4 +32,15 @@ public class Dictionary {
 		return dictionary.keySet();
 	}
 
+	public double probability(final String after, final String... tokens) {
+		Occurrences occurrences = get(new Tokens(tokens));
+		if (occurrences != null) {
+			Double count = occurrences.get(after);
+			if (count != null) {
+				return occurrences.calculateProbability(count);
+			}
+		}
+		return 0.0;
+	}
+
 }

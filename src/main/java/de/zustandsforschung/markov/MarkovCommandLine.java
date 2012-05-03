@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
+import de.zustandsforschung.markov.model.Dictionary;
 import de.zustandsforschung.markov.random.RandomGeneratorImpl;
 
 public final class MarkovCommandLine {

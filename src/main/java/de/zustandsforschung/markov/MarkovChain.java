@@ -11,8 +11,6 @@ public interface MarkovChain {
 
 	void addTokens(String string);
 
-	double probability(String after, String... tokens);
-
 	void setRandomGenerator(RandomGenerator randomGenerator);
 
 	void clearPreviousToken();

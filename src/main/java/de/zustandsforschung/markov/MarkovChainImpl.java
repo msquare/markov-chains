@@ -11,14 +11,18 @@ import de.zustandsforschung.markov.random.RandomGenerator;
 
 public class MarkovChainImpl implements MarkovChain {
 
-	private final Dictionary dictionary;
+	public final Dictionary dictionary;
 	private RandomGenerator randomGenerator;
 	private final Tokens previousTokens;
 	private final Tokenizer tokenizer;
 	private int order;
 
 	public MarkovChainImpl() {
-		dictionary = new Dictionary();
+		this(new Dictionary());
+	}
+	
+	public MarkovChainImpl(Dictionary dictionary) {
+		this.dictionary = dictionary;
 		previousTokens = new Tokens();
 		tokenizer = new TokenizerImpl();
 		order = 1;
@@ -31,8 +35,7 @@ public class MarkovChainImpl implements MarkovChain {
 		if (occurrences != null) {
 			Double probability = 0.0;
 			for (Map.Entry<String, Double> entry : occurrences.entrySet()) {
-				probability += calculateProbability(entry.getValue(),
-						occurrences);
+				probability += occurrences.calculateProbability(entry.getValue());
 				if (random < probability) {
 					return entry.getKey();
 				}
@@ -68,23 +71,6 @@ public class MarkovChainImpl implements MarkovChain {
 	@Override
 	public void addTokens(final String input) {
 		addTokens(tokenizer.tokenize(input));
-	}
-
-	@Override
-	public double probability(final String after, final String... tokens) {
-		Occurrences tokenCount = dictionary.get(new Tokens(tokens));
-		if (tokenCount != null) {
-			Double count = tokenCount.get(after);
-			if (count != null) {
-				return calculateProbability(count, tokenCount);
-			}
-		}
-		return 0.0;
-	}
-
-	private double calculateProbability(final Double occurrence,
-			final Occurrences occurrences) {
-		return occurrence / occurrences.totalCount();
 	}
 
 	@Override

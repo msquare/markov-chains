@@ -45,4 +45,8 @@ public class Occurrences {
 		return totalCount;
 	}
 
+	public double calculateProbability(final Double occurrence) {
+		return occurrence / totalCount();
+	}
+
 }

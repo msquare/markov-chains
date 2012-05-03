@@ -5,16 +5,19 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
+import de.zustandsforschung.markov.model.Dictionary;
 import de.zustandsforschung.markov.model.Tokens;
 import de.zustandsforschung.markov.random.DeterministicRandomGenerator;
 
 public class MarkovChainTest {
 
 	private MarkovChain markovChain;
+	private Dictionary dictionary;
 
 	@Before
 	public void setUp() {
-		markovChain = new MarkovChainImpl();
+		dictionary = new Dictionary();
+		markovChain = new MarkovChainImpl(dictionary);
 	}
 
 	@Test
@@ -58,33 +61,33 @@ public class MarkovChainTest {
 	@Test
 	public void testProbability100Percent() {
 		markovChain.addTokens(new Tokens("first", "second"));
-		assertEquals(1.0, markovChain.probability("second", "first"), 0.0);
+		assertEquals(1.0, dictionary.probability("second", "first"), 0.0);
 	}
 
 	@Test
 	public void testProbability50Percent() {
 		markovChain.addTokens(new Tokens("one", "two", "one", "three"));
-		assertEquals(0.5, markovChain.probability("two", "one"), 0.0);
+		assertEquals(0.5, dictionary.probability("two", "one"), 0.0);
 	}
 
 	@Test
 	public void testProbability66Percent() {
 		markovChain.addTokens(new Tokens("one", "two", "one", "two", "one",
 				"three"));
-		assertEquals(0.66, markovChain.probability("two", "one"), 0.1);
+		assertEquals(0.66, dictionary.probability("two", "one"), 0.1);
 	}
 
 	@Test
 	public void testProbabilityWithTokenizer() {
 		markovChain.addTokens("one two one two one three");
-		assertEquals(0.66, markovChain.probability("two", "one"), 0.1);
+		assertEquals(0.66, dictionary.probability("two", "one"), 0.1);
 	}
 
 	@Test
 	public void testProbability100PercentOrder2() {
 		markovChain.setOrder(2);
 		markovChain.addTokens(new Tokens("first", "second", "third"));
-		assertEquals(1.0, markovChain.probability("third", "first", "second"),
+		assertEquals(1.0, dictionary.probability("third", "first", "second"),
 				0.0);
 	}
 
