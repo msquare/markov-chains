@@ -35,7 +35,7 @@ public class MarkovDictionary {
 		dictionary.put(tokens, occurrences);
 	}
 
-	public Set<Tokens> keySet() {
+	public Set<Tokens> allTokens() {
 		return dictionary.keySet();
 	}
 

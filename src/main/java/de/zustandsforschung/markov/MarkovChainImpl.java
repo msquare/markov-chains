@@ -98,7 +98,7 @@ public class MarkovChainImpl implements MarkovChain {
 	 */
 	@Override
 	public Tokens findStartTokens(final String startToken) {
-		for (Tokens tokens : dictionary.keySet()) {
+		for (Tokens tokens : dictionary.allTokens()) {
 			if (tokens.size() > 0
 					&& tokens.get(tokens.size() - 1).equals(startToken)) {
 				return tokens;
