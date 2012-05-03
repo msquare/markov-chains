@@ -4,11 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public class Dictionary {
+public class MarkovDictionary {
 
 	private final Map<Tokens, Occurrences> dictionary;
 
-	public Dictionary() {
+	public MarkovDictionary() {
 		dictionary = new HashMap<Tokens, Occurrences>();
 	}
 

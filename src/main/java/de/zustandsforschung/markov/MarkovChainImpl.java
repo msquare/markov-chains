@@ -4,24 +4,24 @@ import java.util.Map;
 
 import de.zustandsforschung.markov.helper.Tokenizer;
 import de.zustandsforschung.markov.helper.TokenizerImpl;
-import de.zustandsforschung.markov.model.Dictionary;
+import de.zustandsforschung.markov.model.MarkovDictionary;
 import de.zustandsforschung.markov.model.Occurrences;
 import de.zustandsforschung.markov.model.Tokens;
 import de.zustandsforschung.markov.random.RandomGenerator;
 
 public class MarkovChainImpl implements MarkovChain {
 
-	public final Dictionary dictionary;
+	public final MarkovDictionary dictionary;
 	private RandomGenerator randomGenerator;
 	private final Tokens previousTokens;
 	private final Tokenizer tokenizer;
 	private int order;
 
 	public MarkovChainImpl() {
-		this(new Dictionary());
+		this(new MarkovDictionary());
 	}
 	
-	public MarkovChainImpl(Dictionary dictionary) {
+	public MarkovChainImpl(MarkovDictionary dictionary) {
 		this.dictionary = dictionary;
 		previousTokens = new Tokens();
 		tokenizer = new TokenizerImpl();

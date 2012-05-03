@@ -5,18 +5,18 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.zustandsforschung.markov.model.Dictionary;
+import de.zustandsforschung.markov.model.MarkovDictionary;
 import de.zustandsforschung.markov.model.Tokens;
 import de.zustandsforschung.markov.random.DeterministicRandomGenerator;
 
 public class MarkovChainTest {
 
 	private MarkovChain markovChain;
-	private Dictionary dictionary;
+	private MarkovDictionary dictionary;
 
 	@Before
 	public void setUp() {
-		dictionary = new Dictionary();
+		dictionary = new MarkovDictionary();
 		markovChain = new MarkovChainImpl(dictionary);
 	}
 
