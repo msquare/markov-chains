@@ -15,7 +15,6 @@ public class MarkovChainImpl implements MarkovChain {
 	private RandomGenerator randomGenerator;
 	private final Tokens previousTokens;
 	private final Tokenizer tokenizer;
-	private int order;
 
 	public MarkovChainImpl() {
 		this(new MarkovDictionary());
@@ -25,7 +24,6 @@ public class MarkovChainImpl implements MarkovChain {
 		this.dictionary = dictionary;
 		previousTokens = new Tokens();
 		tokenizer = new TokenizerImpl();
-		order = 1;
 	}
 
 	@Override
@@ -62,7 +60,7 @@ public class MarkovChainImpl implements MarkovChain {
 	}
 
 	private void updatePreviousToken(final String token) {
-		if (previousTokens.size() >= order) {
+		if (previousTokens.size() >= dictionary.getOrder()) {
 			previousTokens.remove(0);
 		}
 		previousTokens.add(token);
@@ -93,15 +91,7 @@ public class MarkovChainImpl implements MarkovChain {
 		return tokenizer.getPunctuationRegex();
 	}
 
-	@Override
-	public void setOrder(final int order) {
-		this.order = order;
-	}
 
-	@Override
-	public int getOrder() {
-		return order;
-	}
 
 	/**
 	 * {@inheritDoc}
@@ -116,4 +106,5 @@ public class MarkovChainImpl implements MarkovChain {
 		}
 		return null;
 	}
+
 }

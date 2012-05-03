@@ -7,9 +7,16 @@ import java.util.Set;
 public class MarkovDictionary {
 
 	private final Map<Tokens, Occurrences> dictionary;
+	private int order;
+
 
 	public MarkovDictionary() {
+		this(1);
+	}
+
+	public MarkovDictionary(int order) {
 		dictionary = new HashMap<Tokens, Occurrences>();
+		this.order = order;
 	}
 
 	public Occurrences getOrCreate(final Tokens tokens) {
@@ -41,6 +48,10 @@ public class MarkovDictionary {
 			}
 		}
 		return 0.0;
+	}
+	
+	public int getOrder() {
+		return order;
 	}
 
 }

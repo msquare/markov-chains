@@ -17,10 +17,6 @@ public interface MarkovChain {
 
 	String getPunctuationRegex();
 
-	void setOrder(int order);
-
-	int getOrder();
-
 	/**
 	 * Finds a list of tokens in the dictionary such that the last element of
 	 * this list is the startToken.

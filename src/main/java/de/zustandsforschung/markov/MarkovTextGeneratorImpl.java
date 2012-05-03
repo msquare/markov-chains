@@ -1,20 +1,22 @@
 package de.zustandsforschung.markov;
 
+import de.zustandsforschung.markov.model.MarkovDictionary;
 import de.zustandsforschung.markov.model.Tokens;
 
 public class MarkovTextGeneratorImpl implements MarkovTextGenerator {
 
 	private final MarkovChain markovChain;
 	private final String startToken;
+	private MarkovDictionary markovDictionary;
 
-	public MarkovTextGeneratorImpl(final MarkovChain markovChain) {
-		this.markovChain = markovChain;
-		this.startToken = null;
+	public MarkovTextGeneratorImpl(final MarkovChain markovChain, final MarkovDictionary markovDictionary) {
+		this(markovChain, markovDictionary, null);
 	}
 
-	public MarkovTextGeneratorImpl(final MarkovChain markovChain,
+	public MarkovTextGeneratorImpl(final MarkovChain markovChain, final MarkovDictionary markovDictionary,
 			final String startToken) {
 		this.markovChain = markovChain;
+		this.markovDictionary = markovDictionary;
 		this.startToken = startToken;
 	}
 
@@ -35,7 +37,7 @@ public class MarkovTextGeneratorImpl implements MarkovTextGenerator {
 			} else {
 				break;
 			}
-			if (previousTokens.size() >= markovChain.getOrder()) {
+			if (previousTokens.size() >= markovDictionary.getOrder()) {
 				previousTokens.remove(0);
 			}
 			previousTokens.add(token);
