@@ -1,45 +1,25 @@
 package de.zustandsforschung.markov;
 
-import java.util.Map;
-
 import de.zustandsforschung.markov.helper.Tokenizer;
 import de.zustandsforschung.markov.helper.TokenizerImpl;
 import de.zustandsforschung.markov.model.MarkovDictionary;
 import de.zustandsforschung.markov.model.Occurrences;
 import de.zustandsforschung.markov.model.Tokens;
-import de.zustandsforschung.markov.random.RandomGenerator;
 
 public class MarkovChainImpl implements MarkovChain {
 
 	public final MarkovDictionary dictionary;
-	private RandomGenerator randomGenerator;
 	private final Tokens previousTokens;
 	private final Tokenizer tokenizer;
 
 	public MarkovChainImpl() {
 		this(new MarkovDictionary());
 	}
-	
-	public MarkovChainImpl(MarkovDictionary dictionary) {
+
+	public MarkovChainImpl(final MarkovDictionary dictionary) {
 		this.dictionary = dictionary;
 		previousTokens = new Tokens();
 		tokenizer = new TokenizerImpl();
-	}
-
-	@Override
-	public String next(final Tokens tokens) {
-		Double random = randomGenerator.next();
-		Occurrences occurrences = dictionary.get(tokens);
-		if (occurrences != null) {
-			Double probability = 0.0;
-			for (Map.Entry<String, Double> entry : occurrences.entrySet()) {
-				probability += occurrences.calculateProbability(entry.getValue());
-				if (random < probability) {
-					return entry.getKey();
-				}
-			}
-		}
-		return null;
 	}
 
 	@Override
@@ -72,11 +52,6 @@ public class MarkovChainImpl implements MarkovChain {
 	}
 
 	@Override
-	public void setRandomGenerator(final RandomGenerator randomGenerator) {
-		this.randomGenerator = randomGenerator;
-	}
-
-	@Override
 	public void clearPreviousToken() {
 		previousTokens.clear();
 	}
@@ -89,22 +64,6 @@ public class MarkovChainImpl implements MarkovChain {
 	@Override
 	public String getPunctuationRegex() {
 		return tokenizer.getPunctuationRegex();
-	}
-
-
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Tokens findStartTokens(final String startToken) {
-		for (Tokens tokens : dictionary.allTokens()) {
-			if (tokens.size() > 0
-					&& tokens.get(tokens.size() - 1).equals(startToken)) {
-				return tokens;
-			}
-		}
-		return null;
 	}
 
 }

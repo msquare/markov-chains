@@ -14,13 +14,14 @@ public final class MarkovCommandLine {
 	}
 
 	public static void main(final String[] args) throws IOException {
-		MarkovDictionary markovDictionary = new MarkovDictionary(Integer.valueOf(args[2]));
+		MarkovDictionary markovDictionary = new MarkovDictionary(
+				Integer.valueOf(args[2]));
 		MarkovChain markovChain = new MarkovChainImpl(markovDictionary);
-		markovChain.setRandomGenerator(new RandomGeneratorImpl());
 		fromFile(markovChain, new File(args[0]));
 
 		MarkovTextGenerator generator = new MarkovTextGeneratorImpl(
 				markovChain, markovDictionary, args[3]);
+		generator.setRandomGenerator(new RandomGeneratorImpl());
 		if (args.length > 4 && "true".equals(args[4])) {
 			System.out.print(args[3] + " ");
 		}

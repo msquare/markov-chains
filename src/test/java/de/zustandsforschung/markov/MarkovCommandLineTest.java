@@ -9,6 +9,7 @@ import java.io.IOException;
 
 import org.junit.Test;
 
+import de.zustandsforschung.markov.model.MarkovDictionary;
 import de.zustandsforschung.markov.model.Tokens;
 import de.zustandsforschung.markov.random.RandomGeneratorImpl;
 
@@ -22,11 +23,13 @@ public class MarkovCommandLineTest {
 		out.write("one two");
 		out.close();
 
-		MarkovChain markovChain = new MarkovChainImpl();
-		markovChain.setRandomGenerator(new RandomGeneratorImpl());
+		MarkovDictionary markovDictionary = new MarkovDictionary(1);
+		MarkovChain markovChain = new MarkovChainImpl(markovDictionary);
+		MarkovTextGenerator markovTextGenerator = new MarkovTextGeneratorImpl(
+				markovChain, markovDictionary);
+		markovTextGenerator.setRandomGenerator(new RandomGeneratorImpl());
 		MarkovCommandLine.fromFile(markovChain, tempFile);
 
-		assertEquals("two", markovChain.next(new Tokens("one")));
+		assertEquals("two", markovTextGenerator.next(new Tokens("one")));
 	}
-
 }
