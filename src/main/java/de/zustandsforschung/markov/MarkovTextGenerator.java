@@ -10,7 +10,7 @@ public interface MarkovTextGenerator {
 	String next(Tokens tokens);
 
 	/**
-	 * Finds a list of tokens in the dictionary such that the last element of
+	 * Finds a list of tokens in the markovDictionary such that the last element of
 	 * this list is the startToken.
 	 * 
 	 * @param startToken

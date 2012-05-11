@@ -8,7 +8,7 @@ import de.zustandsforschung.markov.model.Tokens;
 
 public class MarkovDictionaryBuilderImpl implements MarkovDictionaryBuilder {
 
-	public final MarkovDictionary dictionary;
+	public final MarkovDictionary markovDictionary;
 	private final Tokens previousTokens;
 	private final Tokenizer tokenizer;
 
@@ -17,7 +17,7 @@ public class MarkovDictionaryBuilderImpl implements MarkovDictionaryBuilder {
 	}
 
 	public MarkovDictionaryBuilderImpl(final MarkovDictionary dictionary) {
-		this.dictionary = dictionary;
+		this.markovDictionary = dictionary;
 		previousTokens = new Tokens();
 		tokenizer = new TokenizerImpl();
 	}
@@ -31,19 +31,12 @@ public class MarkovDictionaryBuilderImpl implements MarkovDictionaryBuilder {
 
 	private void addToken(final String token) {
 		addTokenToDictionary(token);
-		updatePreviousToken(token);
+		previousTokens.update(markovDictionary.getOrder(), token);
 	}
 
 	private void addTokenToDictionary(final String token) {
-		Occurrences occurrences = dictionary.getOrCreate(previousTokens);
+		Occurrences occurrences = markovDictionary.getOrCreate(previousTokens);
 		occurrences.increaseCount(token);
-	}
-
-	private void updatePreviousToken(final String token) {
-		if (previousTokens.size() >= dictionary.getOrder()) {
-			previousTokens.remove(0);
-		}
-		previousTokens.add(token);
 	}
 
 	@Override
@@ -58,7 +51,7 @@ public class MarkovDictionaryBuilderImpl implements MarkovDictionaryBuilder {
 
 	@Override
 	public String toString() {
-		return dictionary.toString();
+		return markovDictionary.toString();
 	}
 
 }

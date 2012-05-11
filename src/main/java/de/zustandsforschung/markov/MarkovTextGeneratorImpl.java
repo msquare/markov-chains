@@ -11,8 +11,10 @@ import de.zustandsforschung.markov.random.RandomGenerator;
 public class MarkovTextGeneratorImpl implements MarkovTextGenerator {
 
 	private final String startToken;
-	private final MarkovDictionary markovDictionary;
+	public final MarkovDictionary markovDictionary;
 	private RandomGenerator randomGenerator;
+	private final StringBuffer generated;
+	private Tokens previousTokens;
 
 	public MarkovTextGeneratorImpl(final MarkovDictionary markovDictionary) {
 		this(markovDictionary, null);
@@ -22,31 +24,30 @@ public class MarkovTextGeneratorImpl implements MarkovTextGenerator {
 			final String startToken) {
 		this.markovDictionary = markovDictionary;
 		this.startToken = startToken;
+		this.generated = new StringBuffer();
+		this.previousTokens = new Tokens();
 	}
 
 	@Override
 	public String generate(final int numTokens) {
-		StringBuffer generated = new StringBuffer();
-		Tokens previousTokens = new Tokens();
 		if (startToken != null) {
 			previousTokens = findStartTokens(startToken);
 		}
 		for (int i = 0; i < numTokens; i++) {
-			String token = next(previousTokens);
-			if (token != null) {
-				if (!token.matches(Tokenizer.PUNCTUATION_REGEX)) {
-					generated.append(" ");
-				}
-				generated.append(token);
-			} else {
-				break;
-			}
-			if (previousTokens.size() >= markovDictionary.getOrder()) {
-				previousTokens.remove(0);
-			}
-			previousTokens.add(token);
+			appendToken(previousTokens);
 		}
 		return generated.toString().trim();
+	}
+
+	private void appendToken(final Tokens previousTokens) {
+		String token = next(previousTokens);
+		if (token != null) {
+			if (!token.matches(Tokenizer.PUNCTUATION_REGEX)) {
+				generated.append(" ");
+			}
+			generated.append(token);
+		}
+		previousTokens.update(markovDictionary.getOrder(), token);
 	}
 
 	@Override

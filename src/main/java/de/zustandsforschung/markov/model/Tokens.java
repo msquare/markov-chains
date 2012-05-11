@@ -83,4 +83,11 @@ public class Tokens implements Iterable<String> {
 		return true;
 	}
 
+	public void update(final int order, final String token) {
+		if (size() >= order) {
+			remove(0);
+		}
+		add(token);
+	}
+
 }
