@@ -30,14 +30,6 @@ public class Tokens implements Iterable<String> {
 		return tokens.size();
 	}
 
-	public void remove(final int i) {
-		tokens.remove(i);
-	}
-
-	public void add(final String token) {
-		tokens.add(token);
-	}
-
 	public Tokens duplicate() {
 		@SuppressWarnings("unchecked")
 		Tokens duplicate = new Tokens(
@@ -85,9 +77,9 @@ public class Tokens implements Iterable<String> {
 
 	public void update(final int order, final String token) {
 		if (size() >= order) {
-			remove(0);
+			tokens.remove(0);
 		}
-		add(token);
+		tokens.add(token);
 	}
 
 }
