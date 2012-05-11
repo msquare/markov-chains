@@ -1,5 +1,7 @@
 package de.zustandsforschung.markov;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import de.zustandsforschung.markov.helper.Tokenizer;
@@ -41,7 +43,8 @@ public class MarkovTextGeneratorImpl implements MarkovTextGenerator {
 
 	/**
 	 * Finds a list of tokens in the markovDictionary such that the last element
-	 * of this list is the startToken.
+	 * of this list is the startToken. If there's more than one candidate, then
+	 * one of them is selected randomly.
 	 * 
 	 * @param startToken
 	 *            Token that should be used as a starting point (markov chain
@@ -49,13 +52,16 @@ public class MarkovTextGeneratorImpl implements MarkovTextGenerator {
 	 * @return List of tokens where the first element is the start token.
 	 */
 	private Tokens findStartTokens(final String startToken) {
+		List<Tokens> startTokensCandidates = new ArrayList<Tokens>();
 		for (Tokens tokens : markovDictionary.allTokens()) {
 			if (tokens.size() > 0
 					&& tokens.get(tokens.size() - 1).equals(startToken)) {
-				return tokens;
+				startTokensCandidates.add(tokens);
 			}
 		}
-		return null;
+		int maxRandomInteger = startTokensCandidates.size();
+		return startTokensCandidates.get(randomGenerator
+				.nextInteger(maxRandomInteger));
 	}
 
 	private void appendToken(final Tokens previousTokens) {
@@ -71,7 +77,7 @@ public class MarkovTextGeneratorImpl implements MarkovTextGenerator {
 
 	@Override
 	public String next(final Tokens tokens) {
-		Double random = randomGenerator.next();
+		Double random = randomGenerator.nextDouble();
 		Occurrences occurrences = markovDictionary.get(tokens);
 		if (occurrences != null) {
 			Double probability = 0.0;

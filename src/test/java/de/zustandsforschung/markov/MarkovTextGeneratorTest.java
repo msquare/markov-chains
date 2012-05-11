@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import de.zustandsforschung.markov.model.MarkovDictionary;
 import de.zustandsforschung.markov.model.Tokens;
+import de.zustandsforschung.markov.random.DeterministicRandomGenerator;
 import de.zustandsforschung.markov.random.RandomGeneratorImpl;
 
 public class MarkovTextGeneratorTest {
@@ -17,7 +18,8 @@ public class MarkovTextGeneratorTest {
 	@Before
 	public void setUp() {
 		markovDictionary = new MarkovDictionary();
-		markovDictionaryBuilder = new MarkovDictionaryBuilderImpl(markovDictionary);
+		markovDictionaryBuilder = new MarkovDictionaryBuilderImpl(
+				markovDictionary);
 	}
 
 	@Test
@@ -51,7 +53,8 @@ public class MarkovTextGeneratorTest {
 	@Test
 	public void testGenerateOrder2() {
 		markovDictionary = new MarkovDictionary(2);
-		markovDictionaryBuilder = new MarkovDictionaryBuilderImpl(markovDictionary);
+		markovDictionaryBuilder = new MarkovDictionaryBuilderImpl(
+				markovDictionary);
 		markovDictionaryBuilder.addTokens(new Tokens("one", "two", "three"));
 
 		MarkovTextGenerator generator = new MarkovTextGeneratorImpl(
@@ -83,13 +86,29 @@ public class MarkovTextGeneratorTest {
 	@Test
 	public void testGenerateUseStartTokenOrder2() {
 		markovDictionary = new MarkovDictionary(2);
-		markovDictionaryBuilder = new MarkovDictionaryBuilderImpl(markovDictionary);
+		markovDictionaryBuilder = new MarkovDictionaryBuilderImpl(
+				markovDictionary);
 		markovDictionaryBuilder.addTokens(new Tokens("one", "two", "three"));
 
 		MarkovTextGenerator generator = new MarkovTextGeneratorImpl(
 				markovDictionary, "two");
 		generator.setRandomGenerator(new RandomGeneratorImpl());
 		assertEquals("three", generator.generate(1));
+	}
+
+	@Test
+	public void testGenerateUseStartTokenOrder2With2Candidates()
+			throws Exception {
+		markovDictionary = new MarkovDictionary(2);
+		markovDictionaryBuilder = new MarkovDictionaryBuilderImpl(
+				markovDictionary);
+		markovDictionaryBuilder.addTokens(new Tokens("something", "candidate",
+				"something else", "candidate", "start"));
+
+		MarkovTextGenerator generator = new MarkovTextGeneratorImpl(
+				markovDictionary, "candidate");
+		generator.setRandomGenerator(new DeterministicRandomGenerator(0.7));
+		assertEquals("start", generator.generate(1));
 	}
 
 }
