@@ -8,7 +8,7 @@ import de.zustandsforschung.markov.model.Tokens;
 
 public class MarkovDictionaryBuilderImpl implements MarkovDictionaryBuilder {
 
-	public final MarkovDictionary markovDictionary;
+	private final MarkovDictionary markovDictionary;
 	private final Tokens previousTokens;
 	private final Tokenizer tokenizer;
 
@@ -18,8 +18,8 @@ public class MarkovDictionaryBuilderImpl implements MarkovDictionaryBuilder {
 
 	public MarkovDictionaryBuilderImpl(final MarkovDictionary dictionary) {
 		this.markovDictionary = dictionary;
-		previousTokens = new Tokens();
-		tokenizer = new TokenizerImpl();
+		this.previousTokens = new Tokens();
+		this.tokenizer = new TokenizerImpl();
 	}
 
 	@Override
