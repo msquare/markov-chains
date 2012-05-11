@@ -20,7 +20,7 @@ public final class MarkovCommandLine {
 		fromFile(markovChain, new File(args[0]));
 
 		MarkovTextGenerator generator = new MarkovTextGeneratorImpl(
-				markovChain, markovDictionary, args[3]);
+				markovDictionary, args[3]);
 		generator.setRandomGenerator(new RandomGeneratorImpl());
 		if (args.length > 4 && "true".equals(args[4])) {
 			System.out.print(args[3] + " ");

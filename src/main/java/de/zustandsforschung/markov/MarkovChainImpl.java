@@ -61,9 +61,4 @@ public class MarkovChainImpl implements MarkovChain {
 		return dictionary.toString();
 	}
 
-	@Override
-	public String getPunctuationRegex() {
-		return tokenizer.getPunctuationRegex();
-	}
-
 }

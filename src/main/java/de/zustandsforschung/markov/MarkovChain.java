@@ -10,6 +10,4 @@ public interface MarkovChain {
 
 	void clearPreviousToken();
 
-	String getPunctuationRegex();
-
 }

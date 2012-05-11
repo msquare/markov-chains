@@ -26,7 +26,7 @@ public class MarkovCommandLineTest {
 		MarkovDictionary markovDictionary = new MarkovDictionary(1);
 		MarkovChain markovChain = new MarkovChainImpl(markovDictionary);
 		MarkovTextGenerator markovTextGenerator = new MarkovTextGeneratorImpl(
-				markovChain, markovDictionary);
+				markovDictionary);
 		markovTextGenerator.setRandomGenerator(new RandomGeneratorImpl());
 		MarkovCommandLine.fromFile(markovChain, tempFile);
 

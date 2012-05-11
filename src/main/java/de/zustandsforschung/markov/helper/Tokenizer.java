@@ -4,8 +4,8 @@ import de.zustandsforschung.markov.model.Tokens;
 
 public interface Tokenizer {
 
-	Tokens tokenize(String input);
+	public static final String PUNCTUATION_REGEX = "([\\.,!\\?\";])";
 
-	String getPunctuationRegex();
+	Tokens tokenize(String input);
 
 }

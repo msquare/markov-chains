@@ -2,6 +2,7 @@ package de.zustandsforschung.markov;
 
 import java.util.Map;
 
+import de.zustandsforschung.markov.helper.Tokenizer;
 import de.zustandsforschung.markov.model.MarkovDictionary;
 import de.zustandsforschung.markov.model.Occurrences;
 import de.zustandsforschung.markov.model.Tokens;
@@ -9,19 +10,16 @@ import de.zustandsforschung.markov.random.RandomGenerator;
 
 public class MarkovTextGeneratorImpl implements MarkovTextGenerator {
 
-	private final MarkovChain markovChain;
 	private final String startToken;
 	private final MarkovDictionary markovDictionary;
 	private RandomGenerator randomGenerator;
 
-	public MarkovTextGeneratorImpl(final MarkovChain markovChain,
-			final MarkovDictionary markovDictionary) {
-		this(markovChain, markovDictionary, null);
+	public MarkovTextGeneratorImpl(final MarkovDictionary markovDictionary) {
+		this(markovDictionary, null);
 	}
 
-	public MarkovTextGeneratorImpl(final MarkovChain markovChain,
-			final MarkovDictionary markovDictionary, final String startToken) {
-		this.markovChain = markovChain;
+	public MarkovTextGeneratorImpl(final MarkovDictionary markovDictionary,
+			final String startToken) {
 		this.markovDictionary = markovDictionary;
 		this.startToken = startToken;
 	}
@@ -36,7 +34,7 @@ public class MarkovTextGeneratorImpl implements MarkovTextGenerator {
 		for (int i = 0; i < numTokens; i++) {
 			String token = next(previousTokens);
 			if (token != null) {
-				if (!token.matches(markovChain.getPunctuationRegex())) {
+				if (!token.matches(Tokenizer.PUNCTUATION_REGEX)) {
 					generated.append(" ");
 				}
 				generated.append(token);

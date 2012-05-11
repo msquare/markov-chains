@@ -23,7 +23,7 @@ public class MarkovTextGeneratorTest {
 	@Test
 	public void testGenerateEmpty() {
 		MarkovTextGenerator generator = new MarkovTextGeneratorImpl(
-				markovChain, markovDictionary);
+				markovDictionary);
 		generator.setRandomGenerator(new RandomGeneratorImpl());
 		assertEquals("", generator.generate(1));
 	}
@@ -33,7 +33,7 @@ public class MarkovTextGeneratorTest {
 		markovChain.addTokens(new Tokens("one"));
 
 		MarkovTextGenerator generator = new MarkovTextGeneratorImpl(
-				markovChain, markovDictionary);
+				markovDictionary);
 		generator.setRandomGenerator(new RandomGeneratorImpl());
 		assertEquals("one", generator.generate(1));
 	}
@@ -43,7 +43,7 @@ public class MarkovTextGeneratorTest {
 		markovChain.addTokens(new Tokens("one", "two"));
 
 		MarkovTextGenerator generator = new MarkovTextGeneratorImpl(
-				markovChain, markovDictionary);
+				markovDictionary);
 		generator.setRandomGenerator(new RandomGeneratorImpl());
 		assertEquals("one two", generator.generate(2));
 	}
@@ -55,7 +55,7 @@ public class MarkovTextGeneratorTest {
 		markovChain.addTokens(new Tokens("one", "two", "three"));
 
 		MarkovTextGenerator generator = new MarkovTextGeneratorImpl(
-				markovChain, markovDictionary);
+				markovDictionary);
 		generator.setRandomGenerator(new RandomGeneratorImpl());
 		assertEquals("one two three", generator.generate(3));
 	}
@@ -65,7 +65,7 @@ public class MarkovTextGeneratorTest {
 		markovChain.addTokens(new Tokens("one", ","));
 
 		MarkovTextGenerator generator = new MarkovTextGeneratorImpl(
-				markovChain, markovDictionary);
+				markovDictionary);
 		generator.setRandomGenerator(new RandomGeneratorImpl());
 		assertEquals("one,", generator.generate(2));
 	}
@@ -75,7 +75,7 @@ public class MarkovTextGeneratorTest {
 		markovChain.addTokens(new Tokens("one", "two", "three"));
 
 		MarkovTextGenerator generator = new MarkovTextGeneratorImpl(
-				markovChain, markovDictionary, "two");
+				markovDictionary, "two");
 		generator.setRandomGenerator(new RandomGeneratorImpl());
 		assertEquals("three", generator.generate(1));
 	}
@@ -87,7 +87,7 @@ public class MarkovTextGeneratorTest {
 		markovChain.addTokens(new Tokens("one", "two", "three"));
 
 		MarkovTextGenerator generator = new MarkovTextGeneratorImpl(
-				markovChain, markovDictionary, "two");
+				markovDictionary, "two");
 		generator.setRandomGenerator(new RandomGeneratorImpl());
 		assertEquals("three", generator.generate(1));
 	}

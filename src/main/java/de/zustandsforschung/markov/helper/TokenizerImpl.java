@@ -4,8 +4,6 @@ import de.zustandsforschung.markov.model.Tokens;
 
 public class TokenizerImpl implements Tokenizer {
 
-	public static final String PUNCTUATION_REGEX = "([\\.,!\\?\";])";
-
 	@Override
 	public Tokens tokenize(final String input) {
 		final Tokens tokens = new Tokens();
@@ -15,11 +13,6 @@ public class TokenizerImpl implements Tokenizer {
 			tokens.addAll(new Tokens(preparedInput.split(" +")));
 		}
 		return tokens;
-	}
-
-	@Override
-	public String getPunctuationRegex() {
-		return PUNCTUATION_REGEX;
 	}
 
 }

@@ -19,8 +19,7 @@ public class MarkovChainTest {
 	public void setUp() {
 		markovDictionary = new MarkovDictionary();
 		markovChain = new MarkovChainImpl(markovDictionary);
-		markovTextGenerator = new MarkovTextGeneratorImpl(markovChain,
-				markovDictionary);
+		markovTextGenerator = new MarkovTextGeneratorImpl(markovDictionary);
 	}
 
 	@Test
@@ -62,8 +61,7 @@ public class MarkovChainTest {
 		markovChain = new MarkovChainImpl(markovDictionary);
 		markovChain.addTokens(new Tokens("one", "two", "one", "two", "one",
 				"two", "three"));
-		markovTextGenerator = new MarkovTextGeneratorImpl(markovChain,
-				markovDictionary);
+		markovTextGenerator = new MarkovTextGeneratorImpl(markovDictionary);
 		markovTextGenerator
 				.setRandomGenerator(new DeterministicRandomGenerator(0.7));
 		assertEquals("three",
