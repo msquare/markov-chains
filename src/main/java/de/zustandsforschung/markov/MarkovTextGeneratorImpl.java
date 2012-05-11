@@ -11,7 +11,7 @@ import de.zustandsforschung.markov.random.RandomGenerator;
 public class MarkovTextGeneratorImpl implements MarkovTextGenerator {
 
 	private final String startToken;
-	public final MarkovDictionary markovDictionary;
+	private final MarkovDictionary markovDictionary;
 	private RandomGenerator randomGenerator;
 	private final StringBuffer generated;
 	private Tokens previousTokens;
