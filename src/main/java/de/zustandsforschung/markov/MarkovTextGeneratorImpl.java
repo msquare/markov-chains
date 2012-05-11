@@ -39,6 +39,25 @@ public class MarkovTextGeneratorImpl implements MarkovTextGenerator {
 		return generated.toString().trim();
 	}
 
+	/**
+	 * Finds a list of tokens in the markovDictionary such that the last element
+	 * of this list is the startToken.
+	 * 
+	 * @param startToken
+	 *            Token that should be used as a starting point (markov chain
+	 *            starts after this token).
+	 * @return List of tokens where the first element is the start token.
+	 */
+	private Tokens findStartTokens(final String startToken) {
+		for (Tokens tokens : markovDictionary.allTokens()) {
+			if (tokens.size() > 0
+					&& tokens.get(tokens.size() - 1).equals(startToken)) {
+				return tokens;
+			}
+		}
+		return null;
+	}
+
 	private void appendToken(final Tokens previousTokens) {
 		String token = next(previousTokens);
 		if (token != null) {
@@ -62,25 +81,6 @@ public class MarkovTextGeneratorImpl implements MarkovTextGenerator {
 				if (random < probability) {
 					return entry.getKey();
 				}
-			}
-		}
-		return null;
-	}
-
-	/**
-	 * Finds a list of tokens in the markovDictionary such that the last element
-	 * of this list is the startToken.
-	 * 
-	 * @param startToken
-	 *            Token that should be used as a starting point (markov chain
-	 *            starts after this token).
-	 * @return List of tokens where the first element is the start token.
-	 */
-	private Tokens findStartTokens(final String startToken) {
-		for (Tokens tokens : markovDictionary.allTokens()) {
-			if (tokens.size() > 0
-					&& tokens.get(tokens.size() - 1).equals(startToken)) {
-				return tokens;
 			}
 		}
 		return null;
