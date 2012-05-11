@@ -2,7 +2,7 @@ package de.zustandsforschung.markov;
 
 import de.zustandsforschung.markov.model.Tokens;
 
-public interface MarkovChain {
+public interface MarkovDictionaryBuilder {
 
 	void addTokens(Tokens tokens);
 

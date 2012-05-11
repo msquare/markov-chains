@@ -6,17 +6,17 @@ import de.zustandsforschung.markov.model.MarkovDictionary;
 import de.zustandsforschung.markov.model.Occurrences;
 import de.zustandsforschung.markov.model.Tokens;
 
-public class MarkovChainImpl implements MarkovChain {
+public class MarkovDictionaryBuilderImpl implements MarkovDictionaryBuilder {
 
 	public final MarkovDictionary dictionary;
 	private final Tokens previousTokens;
 	private final Tokenizer tokenizer;
 
-	public MarkovChainImpl() {
+	public MarkovDictionaryBuilderImpl() {
 		this(new MarkovDictionary());
 	}
 
-	public MarkovChainImpl(final MarkovDictionary dictionary) {
+	public MarkovDictionaryBuilderImpl(final MarkovDictionary dictionary) {
 		this.dictionary = dictionary;
 		previousTokens = new Tokens();
 		tokenizer = new TokenizerImpl();

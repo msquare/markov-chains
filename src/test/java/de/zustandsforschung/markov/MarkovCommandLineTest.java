@@ -24,11 +24,11 @@ public class MarkovCommandLineTest {
 		out.close();
 
 		MarkovDictionary markovDictionary = new MarkovDictionary(1);
-		MarkovChain markovChain = new MarkovChainImpl(markovDictionary);
+		MarkovDictionaryBuilder markovDictionaryBuilder = new MarkovDictionaryBuilderImpl(markovDictionary);
 		MarkovTextGenerator markovTextGenerator = new MarkovTextGeneratorImpl(
 				markovDictionary);
 		markovTextGenerator.setRandomGenerator(new RandomGeneratorImpl());
-		MarkovCommandLine.fromFile(markovChain, tempFile);
+		MarkovCommandLine.fromFile(markovDictionaryBuilder, tempFile);
 
 		assertEquals("two", markovTextGenerator.next(new Tokens("one")));
 	}

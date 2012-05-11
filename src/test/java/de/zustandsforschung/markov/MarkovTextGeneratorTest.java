@@ -11,13 +11,13 @@ import de.zustandsforschung.markov.random.RandomGeneratorImpl;
 
 public class MarkovTextGeneratorTest {
 
-	private MarkovChain markovChain;
+	private MarkovDictionaryBuilder markovDictionaryBuilder;
 	private MarkovDictionary markovDictionary;
 
 	@Before
 	public void setUp() {
 		markovDictionary = new MarkovDictionary();
-		markovChain = new MarkovChainImpl(markovDictionary);
+		markovDictionaryBuilder = new MarkovDictionaryBuilderImpl(markovDictionary);
 	}
 
 	@Test
@@ -30,7 +30,7 @@ public class MarkovTextGeneratorTest {
 
 	@Test
 	public void testGenerateSingle() {
-		markovChain.addTokens(new Tokens("one"));
+		markovDictionaryBuilder.addTokens(new Tokens("one"));
 
 		MarkovTextGenerator generator = new MarkovTextGeneratorImpl(
 				markovDictionary);
@@ -40,7 +40,7 @@ public class MarkovTextGeneratorTest {
 
 	@Test
 	public void testGenerateTwo() {
-		markovChain.addTokens(new Tokens("one", "two"));
+		markovDictionaryBuilder.addTokens(new Tokens("one", "two"));
 
 		MarkovTextGenerator generator = new MarkovTextGeneratorImpl(
 				markovDictionary);
@@ -51,8 +51,8 @@ public class MarkovTextGeneratorTest {
 	@Test
 	public void testGenerateOrder2() {
 		markovDictionary = new MarkovDictionary(2);
-		markovChain = new MarkovChainImpl(markovDictionary);
-		markovChain.addTokens(new Tokens("one", "two", "three"));
+		markovDictionaryBuilder = new MarkovDictionaryBuilderImpl(markovDictionary);
+		markovDictionaryBuilder.addTokens(new Tokens("one", "two", "three"));
 
 		MarkovTextGenerator generator = new MarkovTextGeneratorImpl(
 				markovDictionary);
@@ -62,7 +62,7 @@ public class MarkovTextGeneratorTest {
 
 	@Test
 	public void testGenerateSpacesBeforePunctuation() {
-		markovChain.addTokens(new Tokens("one", ","));
+		markovDictionaryBuilder.addTokens(new Tokens("one", ","));
 
 		MarkovTextGenerator generator = new MarkovTextGeneratorImpl(
 				markovDictionary);
@@ -72,7 +72,7 @@ public class MarkovTextGeneratorTest {
 
 	@Test
 	public void testGenerateUseStartToken() {
-		markovChain.addTokens(new Tokens("one", "two", "three"));
+		markovDictionaryBuilder.addTokens(new Tokens("one", "two", "three"));
 
 		MarkovTextGenerator generator = new MarkovTextGeneratorImpl(
 				markovDictionary, "two");
@@ -83,8 +83,8 @@ public class MarkovTextGeneratorTest {
 	@Test
 	public void testGenerateUseStartTokenOrder2() {
 		markovDictionary = new MarkovDictionary(2);
-		markovChain = new MarkovChainImpl(markovDictionary);
-		markovChain.addTokens(new Tokens("one", "two", "three"));
+		markovDictionaryBuilder = new MarkovDictionaryBuilderImpl(markovDictionary);
+		markovDictionaryBuilder.addTokens(new Tokens("one", "two", "three"));
 
 		MarkovTextGenerator generator = new MarkovTextGeneratorImpl(
 				markovDictionary, "two");

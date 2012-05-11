@@ -16,8 +16,8 @@ public final class MarkovCommandLine {
 	public static void main(final String[] args) throws IOException {
 		MarkovDictionary markovDictionary = new MarkovDictionary(
 				Integer.valueOf(args[2]));
-		MarkovChain markovChain = new MarkovChainImpl(markovDictionary);
-		fromFile(markovChain, new File(args[0]));
+		MarkovDictionaryBuilder markovDictionaryBuilder = new MarkovDictionaryBuilderImpl(markovDictionary);
+		fromFile(markovDictionaryBuilder, new File(args[0]));
 
 		MarkovTextGenerator generator = new MarkovTextGeneratorImpl(
 				markovDictionary, args[3]);
@@ -28,12 +28,12 @@ public final class MarkovCommandLine {
 		System.out.println(generator.generate(Integer.valueOf(args[1])));
 	}
 
-	public static void fromFile(final MarkovChain markovChain, final File file)
+	public static void fromFile(final MarkovDictionaryBuilder markovDictionaryBuilder, final File file)
 			throws IOException {
 		BufferedReader br = new BufferedReader(new FileReader(file));
 		String line;
 		while ((line = br.readLine()) != null) {
-			markovChain.addTokens(line);
+			markovDictionaryBuilder.addTokens(line);
 		}
 	}
 }

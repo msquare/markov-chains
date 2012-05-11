@@ -9,16 +9,16 @@ import de.zustandsforschung.markov.model.MarkovDictionary;
 import de.zustandsforschung.markov.model.Tokens;
 import de.zustandsforschung.markov.random.DeterministicRandomGenerator;
 
-public class MarkovChainTest {
+public class MarkovDictionaryBuilderTest {
 
-	private MarkovChain markovChain;
+	private MarkovDictionaryBuilder markovDictionaryBuilder;
 	private MarkovDictionary markovDictionary;
 	private MarkovTextGenerator markovTextGenerator;
 
 	@Before
 	public void setUp() {
 		markovDictionary = new MarkovDictionary();
-		markovChain = new MarkovChainImpl(markovDictionary);
+		markovDictionaryBuilder = new MarkovDictionaryBuilderImpl(markovDictionary);
 		markovTextGenerator = new MarkovTextGeneratorImpl(markovDictionary);
 	}
 
@@ -26,7 +26,7 @@ public class MarkovChainTest {
 	public void testNextSingle() {
 		markovTextGenerator
 				.setRandomGenerator(new DeterministicRandomGenerator(0.7));
-		markovChain.addTokens(new Tokens("only"));
+		markovDictionaryBuilder.addTokens(new Tokens("only"));
 		assertEquals(null, markovTextGenerator.next(new Tokens("only")));
 	}
 
@@ -34,7 +34,7 @@ public class MarkovChainTest {
 	public void testNextTwo() {
 		markovTextGenerator
 				.setRandomGenerator(new DeterministicRandomGenerator(0.7));
-		markovChain.addTokens(new Tokens("first", "second"));
+		markovDictionaryBuilder.addTokens(new Tokens("first", "second"));
 		assertEquals("second", markovTextGenerator.next(new Tokens("first")));
 	}
 
@@ -42,7 +42,7 @@ public class MarkovChainTest {
 	public void testNext50Percent() {
 		markovTextGenerator
 				.setRandomGenerator(new DeterministicRandomGenerator(0.7));
-		markovChain.addTokens(new Tokens("one", "two", "one", "three"));
+		markovDictionaryBuilder.addTokens(new Tokens("one", "two", "one", "three"));
 		assertEquals("three", markovTextGenerator.next(new Tokens("one")));
 	}
 
@@ -50,7 +50,7 @@ public class MarkovChainTest {
 	public void testNext66Percent() {
 		markovTextGenerator
 				.setRandomGenerator(new DeterministicRandomGenerator(0.7));
-		markovChain.addTokens(new Tokens("one", "two", "one", "two", "one",
+		markovDictionaryBuilder.addTokens(new Tokens("one", "two", "one", "two", "one",
 				"three"));
 		assertEquals("three", markovTextGenerator.next(new Tokens("one")));
 	}
@@ -58,8 +58,8 @@ public class MarkovChainTest {
 	@Test
 	public void testNext50PercentOrder2() {
 		markovDictionary = new MarkovDictionary(2);
-		markovChain = new MarkovChainImpl(markovDictionary);
-		markovChain.addTokens(new Tokens("one", "two", "one", "two", "one",
+		markovDictionaryBuilder = new MarkovDictionaryBuilderImpl(markovDictionary);
+		markovDictionaryBuilder.addTokens(new Tokens("one", "two", "one", "two", "one",
 				"two", "three"));
 		markovTextGenerator = new MarkovTextGeneratorImpl(markovDictionary);
 		markovTextGenerator
@@ -70,34 +70,34 @@ public class MarkovChainTest {
 
 	@Test
 	public void testProbability100Percent() {
-		markovChain.addTokens(new Tokens("first", "second"));
+		markovDictionaryBuilder.addTokens(new Tokens("first", "second"));
 		assertEquals(1.0, markovDictionary.probability("second", "first"), 0.0);
 	}
 
 	@Test
 	public void testProbability50Percent() {
-		markovChain.addTokens(new Tokens("one", "two", "one", "three"));
+		markovDictionaryBuilder.addTokens(new Tokens("one", "two", "one", "three"));
 		assertEquals(0.5, markovDictionary.probability("two", "one"), 0.0);
 	}
 
 	@Test
 	public void testProbability66Percent() {
-		markovChain.addTokens(new Tokens("one", "two", "one", "two", "one",
+		markovDictionaryBuilder.addTokens(new Tokens("one", "two", "one", "two", "one",
 				"three"));
 		assertEquals(0.66, markovDictionary.probability("two", "one"), 0.1);
 	}
 
 	@Test
 	public void testProbabilityWithTokenizer() {
-		markovChain.addTokens("one two one two one three");
+		markovDictionaryBuilder.addTokens("one two one two one three");
 		assertEquals(0.66, markovDictionary.probability("two", "one"), 0.1);
 	}
 
 	@Test
 	public void testProbability100PercentOrder2() {
 		markovDictionary = new MarkovDictionary(2);
-		markovChain = new MarkovChainImpl(markovDictionary);
-		markovChain.addTokens(new Tokens("first", "second", "third"));
+		markovDictionaryBuilder = new MarkovDictionaryBuilderImpl(markovDictionary);
+		markovDictionaryBuilder.addTokens(new Tokens("first", "second", "third"));
 		assertEquals(1.0,
 				markovDictionary.probability("third", "first", "second"), 0.0);
 	}
@@ -106,8 +106,8 @@ public class MarkovChainTest {
 	public void testAddTokensWithoutClear() {
 		markovTextGenerator
 				.setRandomGenerator(new DeterministicRandomGenerator(0.7));
-		markovChain.addTokens(new Tokens("first"));
-		markovChain.addTokens(new Tokens("second"));
+		markovDictionaryBuilder.addTokens(new Tokens("first"));
+		markovDictionaryBuilder.addTokens(new Tokens("second"));
 		assertEquals("second", markovTextGenerator.next(new Tokens("first")));
 	}
 
@@ -115,9 +115,9 @@ public class MarkovChainTest {
 	public void testAddTokensWithClear() {
 		markovTextGenerator
 				.setRandomGenerator(new DeterministicRandomGenerator(0.7));
-		markovChain.addTokens(new Tokens("first"));
-		markovChain.clearPreviousToken();
-		markovChain.addTokens(new Tokens("second"));
+		markovDictionaryBuilder.addTokens(new Tokens("first"));
+		markovDictionaryBuilder.clearPreviousToken();
+		markovDictionaryBuilder.addTokens(new Tokens("second"));
 		assertEquals(null, markovTextGenerator.next(new Tokens("first")));
 	}
 
