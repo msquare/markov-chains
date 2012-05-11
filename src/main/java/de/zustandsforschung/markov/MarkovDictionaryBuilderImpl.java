@@ -23,6 +23,11 @@ public class MarkovDictionaryBuilderImpl implements MarkovDictionaryBuilder {
 	}
 
 	@Override
+	public void addTokens(final String input) {
+		addTokens(tokenizer.tokenize(input));
+	}
+
+	@Override
 	public void addTokens(final Tokens tokens) {
 		for (String token : tokens) {
 			addToken(token);
@@ -37,11 +42,6 @@ public class MarkovDictionaryBuilderImpl implements MarkovDictionaryBuilder {
 	private void addTokenToDictionary(final String token) {
 		Occurrences occurrences = markovDictionary.getOrCreate(previousTokens);
 		occurrences.increaseCount(token);
-	}
-
-	@Override
-	public void addTokens(final String input) {
-		addTokens(tokenizer.tokenize(input));
 	}
 
 	@Override
