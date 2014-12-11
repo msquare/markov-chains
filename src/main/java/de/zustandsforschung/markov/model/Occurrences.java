@@ -1,13 +1,14 @@
 package de.zustandsforschung.markov.model;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-public class Occurrences {
-
+public class Occurrences implements Serializable {
+	private static final long serialVersionUID = 5983325696717800011L;
 	private final Map<String, Double> occurrences;
 
 	public Occurrences() {

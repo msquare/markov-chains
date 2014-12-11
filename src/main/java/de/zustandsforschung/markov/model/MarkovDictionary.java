@@ -1,11 +1,12 @@
 package de.zustandsforschung.markov.model;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public class MarkovDictionary {
-
+public class MarkovDictionary implements Serializable {
+	private static final long serialVersionUID = -2463181382981797814L;
 	private final Map<Tokens, Occurrences> dictionary;
 	private final int order;
 

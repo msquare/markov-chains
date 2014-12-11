@@ -1,12 +1,13 @@
 package de.zustandsforschung.markov.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-public class Tokens implements Iterable<String> {
-
+public class Tokens implements Iterable<String>, Serializable {
+	private static final long serialVersionUID = -311817455986024131L;
 	private final List<String> tokens;
 
 	public Tokens() {
