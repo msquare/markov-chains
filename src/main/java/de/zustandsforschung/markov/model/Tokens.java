@@ -6,24 +6,24 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-public class Tokens implements Iterable<String>, Serializable {
+public class Tokens<T> implements Iterable<T>, Serializable {
 	private static final long serialVersionUID = -311817455986024131L;
-	private final List<String> tokens;
+	private final List<T> tokens;
 
 	public Tokens() {
-		this(new ArrayList<String>());
+		this(new ArrayList<T>());
 	}
 
-	public Tokens(final String... tokens) {
+	public Tokens(final T... tokens) {
 		this(Arrays.asList(tokens));
 	}
 
-	public Tokens(final List<String> tokens) {
+	public Tokens(final List<T> tokens) {
 		this.tokens = tokens;
 	}
 
 	@Override
-	public Iterator<String> iterator() {
+	public Iterator<T> iterator() {
 		return tokens.iterator();
 	}
 
@@ -31,10 +31,10 @@ public class Tokens implements Iterable<String>, Serializable {
 		return tokens.size();
 	}
 
-	public Tokens duplicate() {
+	public Tokens<T> duplicate() {
 		@SuppressWarnings("unchecked")
-		Tokens duplicate = new Tokens(
-				(List<String>) ((ArrayList<String>) tokens).clone());
+		Tokens<T> duplicate = new Tokens<T>(
+				(List<T>) ((ArrayList<T>) tokens).clone());
 		return duplicate;
 	}
 
@@ -42,13 +42,12 @@ public class Tokens implements Iterable<String>, Serializable {
 		tokens.clear();
 	}
 
-	public String get(final int i) {
+	public T get(final int i) {
 		return tokens.get(i);
 	}
 
-	public void addAll(final Tokens tokens) {
+	public void addAll(final Tokens<T> tokens) {
 		this.tokens.addAll(tokens.tokens);
-
 	}
 
 	@Override
@@ -67,7 +66,7 @@ public class Tokens implements Iterable<String>, Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Tokens other = (Tokens) obj;
+		Tokens<T> other = (Tokens<T>) obj;
 		if (tokens == null) {
 			if (other.tokens != null)
 				return false;
@@ -76,7 +75,7 @@ public class Tokens implements Iterable<String>, Serializable {
 		return true;
 	}
 
-	public void update(final int order, final String token) {
+	public void update(final int order, final T token) {
 		if (size() >= order) {
 			tokens.remove(0);
 		}

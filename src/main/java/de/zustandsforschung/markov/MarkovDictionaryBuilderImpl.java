@@ -1,46 +1,39 @@
 package de.zustandsforschung.markov;
 
-import de.zustandsforschung.markov.helper.Tokenizer;
-import de.zustandsforschung.markov.helper.TokenizerImpl;
 import de.zustandsforschung.markov.model.MarkovDictionary;
 import de.zustandsforschung.markov.model.Occurrences;
 import de.zustandsforschung.markov.model.Tokens;
 
-public class MarkovDictionaryBuilderImpl implements MarkovDictionaryBuilder {
+public class MarkovDictionaryBuilderImpl<T> implements
+		MarkovDictionaryBuilder<T> {
 
-	private final MarkovDictionary markovDictionary;
-	private final Tokens previousTokens;
-	private final Tokenizer tokenizer;
+	private final MarkovDictionary<T> markovDictionary;
+	private final Tokens<T> previousTokens;
 
 	public MarkovDictionaryBuilderImpl() {
-		this(new MarkovDictionary());
+		this(new MarkovDictionary<T>());
 	}
 
-	public MarkovDictionaryBuilderImpl(final MarkovDictionary dictionary) {
+	public MarkovDictionaryBuilderImpl(final MarkovDictionary<T> dictionary) {
 		this.markovDictionary = dictionary;
-		this.previousTokens = new Tokens();
-		this.tokenizer = new TokenizerImpl();
+		this.previousTokens = new Tokens<T>();
 	}
 
 	@Override
-	public void addTokens(final String input) {
-		addTokens(tokenizer.tokenize(input));
-	}
-
-	@Override
-	public void addTokens(final Tokens tokens) {
-		for (String token : tokens) {
+	public void addTokens(final Tokens<T> tokens) {
+		for (T token : tokens) {
 			addToken(token);
 		}
 	}
 
-	private void addToken(final String token) {
+	private void addToken(final T token) {
 		addTokenToDictionary(token);
 		previousTokens.update(markovDictionary.getOrder(), token);
 	}
 
-	private void addTokenToDictionary(final String token) {
-		Occurrences occurrences = markovDictionary.getOrCreate(previousTokens);
+	private void addTokenToDictionary(final T token) {
+		Occurrences<T> occurrences = markovDictionary
+				.getOrCreate(previousTokens);
 		occurrences.increaseCount(token);
 	}
 

@@ -13,21 +13,23 @@ import de.zustandsforschung.markov.random.RandomGenerator;
 public class MarkovTextGeneratorImpl implements MarkovTextGenerator {
 
 	private final String startToken;
-	private final MarkovDictionary markovDictionary;
+	private final MarkovDictionary<String> markovDictionary;
 	private RandomGenerator randomGenerator;
 	private final StringBuffer generated;
-	private Tokens previousTokens;
+	private Tokens<String> previousTokens;
 
-	public MarkovTextGeneratorImpl(final MarkovDictionary markovDictionary) {
+	public MarkovTextGeneratorImpl(
+			final MarkovDictionary<String> markovDictionary) {
 		this(markovDictionary, null);
 	}
 
-	public MarkovTextGeneratorImpl(final MarkovDictionary markovDictionary,
+	public MarkovTextGeneratorImpl(
+			final MarkovDictionary<String> markovDictionary,
 			final String startToken) {
 		this.markovDictionary = markovDictionary;
 		this.startToken = startToken;
 		this.generated = new StringBuffer();
-		this.previousTokens = new Tokens();
+		this.previousTokens = new Tokens<String>();
 	}
 
 	@Override
@@ -45,15 +47,15 @@ public class MarkovTextGeneratorImpl implements MarkovTextGenerator {
 	 * Finds a list of tokens in the markovDictionary such that the last element
 	 * of this list is the startToken. If there's more than one candidate, then
 	 * one of them is selected randomly.
-	 * 
+	 *
 	 * @param startToken
 	 *            Token that should be used as a starting point (markov chain
 	 *            starts after this token).
 	 * @return List of tokens where the first element is the start token.
 	 */
-	private Tokens findStartTokens(final String startToken) {
-		List<Tokens> startTokensCandidates = new ArrayList<Tokens>();
-		for (Tokens tokens : markovDictionary.allTokens()) {
+	private Tokens<String> findStartTokens(final String startToken) {
+		List<Tokens<String>> startTokensCandidates = new ArrayList<Tokens<String>>();
+		for (Tokens<String> tokens : markovDictionary.allTokens()) {
 			if (tokens.size() > 0
 					&& tokens.get(tokens.size() - 1).equals(startToken)) {
 				startTokensCandidates.add(tokens);
@@ -64,7 +66,7 @@ public class MarkovTextGeneratorImpl implements MarkovTextGenerator {
 				.nextInteger(maxRandomInteger));
 	}
 
-	private void appendToken(final Tokens previousTokens) {
+	private void appendToken(final Tokens<String> previousTokens) {
 		String token = next(previousTokens);
 		if (token != null) {
 			if (!token.matches(Tokenizer.PUNCTUATION_REGEX)) {
@@ -76,9 +78,9 @@ public class MarkovTextGeneratorImpl implements MarkovTextGenerator {
 	}
 
 	@Override
-	public String next(final Tokens tokens) {
+	public String next(final Tokens<String> tokens) {
 		Double random = randomGenerator.nextDouble();
-		Occurrences occurrences = markovDictionary.get(tokens);
+		Occurrences<String> occurrences = markovDictionary.get(tokens);
 		if (occurrences != null) {
 			Double probability = 0.0;
 			for (Map.Entry<String, Double> entry : occurrences.entrySet()) {

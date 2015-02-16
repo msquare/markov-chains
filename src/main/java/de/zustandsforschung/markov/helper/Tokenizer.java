@@ -6,6 +6,6 @@ public interface Tokenizer {
 
 	public static final String PUNCTUATION_REGEX = "([\\.,!\\?\";])";
 
-	Tokens tokenize(String input);
+	Tokens<String> tokenize(String input);
 
 }

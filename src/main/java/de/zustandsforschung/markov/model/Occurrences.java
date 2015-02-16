@@ -7,23 +7,23 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-public class Occurrences implements Serializable {
+public class Occurrences<T> implements Serializable {
 	private static final long serialVersionUID = 5983325696717800011L;
-	private final Map<String, Double> occurrences;
+	private final Map<T, Double> occurrences;
 
 	public Occurrences() {
-		occurrences = new HashMap<String, Double>();
+		occurrences = new HashMap<T, Double>();
 	}
 
-	public Set<Entry<String, Double>> entrySet() {
+	public Set<Entry<T, Double>> entrySet() {
 		return occurrences.entrySet();
 	}
 
-	public Double get(final String token) {
+	public Double get(final T token) {
 		return occurrences.get(token);
 	}
 
-	public void put(final String token, final Double count) {
+	public void put(final T token, final Double count) {
 		occurrences.put(token, count);
 	}
 
@@ -31,7 +31,7 @@ public class Occurrences implements Serializable {
 		return occurrences.values();
 	}
 
-	public void increaseCount(final String token) {
+	public void increaseCount(final T token) {
 		if (occurrences.get(token) == null) {
 			occurrences.put(token, Double.valueOf(0));
 		}

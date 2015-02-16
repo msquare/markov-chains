@@ -7,7 +7,7 @@ public interface MarkovTextGenerator {
 
 	String generate(int numTokens);
 
-	String next(Tokens tokens);
+	String next(Tokens<String> tokens);
 
 	void setRandomGenerator(RandomGenerator randomGenerator);
 

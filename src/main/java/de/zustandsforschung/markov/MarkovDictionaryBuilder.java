@@ -2,11 +2,9 @@ package de.zustandsforschung.markov;
 
 import de.zustandsforschung.markov.model.Tokens;
 
-public interface MarkovDictionaryBuilder {
+public interface MarkovDictionaryBuilder<T> {
 
-	void addTokens(String string);
-
-	void addTokens(Tokens tokens);
+	void addTokens(Tokens<T> tokens);
 
 	void clearPreviousToken();
 
