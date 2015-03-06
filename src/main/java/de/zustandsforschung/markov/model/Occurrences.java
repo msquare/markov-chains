@@ -15,6 +15,10 @@ public class Occurrences<T> implements Serializable {
 		occurrences = new HashMap<T, Double>();
 	}
 
+	public Set<T> keySet() {
+		return occurrences.keySet();
+	}
+
 	public Set<Entry<T, Double>> entrySet() {
 		return occurrences.entrySet();
 	}
@@ -32,22 +36,25 @@ public class Occurrences<T> implements Serializable {
 	}
 
 	public void increaseCount(final T token) {
-		if (occurrences.get(token) == null) {
+		if (occurrences.get(token) == null)
 			occurrences.put(token, Double.valueOf(0));
-		}
 		occurrences.put(token, occurrences.get(token) + 1);
 	}
 
 	public Double totalCount() {
 		Double totalCount = 0.0;
-		for (Double count : values()) {
+		for (Double count : values())
 			totalCount += count;
-		}
 		return totalCount;
 	}
 
 	public double calculateProbability(final Double occurrence) {
 		return occurrence / totalCount();
+	}
+
+	@Override
+	public String toString() {
+		return occurrences.toString();
 	}
 
 }

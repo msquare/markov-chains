@@ -19,7 +19,7 @@ public final class MarkovCommandLine {
 		MarkovDictionary<String> markovDictionary = new MarkovDictionary<String>(
 				Integer.valueOf(args[2]));
 		MarkovDictionaryBuilder<String> markovDictionaryBuilder = new MarkovDictionaryBuilderImpl<String>(
-				markovDictionary);
+				markovDictionary, false);
 		fromFile(markovDictionaryBuilder, new File(args[0]));
 
 		MarkovTextGenerator generator = new MarkovTextGeneratorImpl(

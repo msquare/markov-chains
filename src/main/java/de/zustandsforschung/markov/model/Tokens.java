@@ -76,10 +76,15 @@ public class Tokens<T> implements Iterable<T>, Serializable {
 	}
 
 	public void update(final int order, final T token) {
-		if (size() >= order) {
+		if (size() >= order)
 			tokens.remove(0);
-		}
+
 		tokens.add(token);
+	}
+
+	@Override
+	public String toString() {
+		return tokens.toString();
 	}
 
 }

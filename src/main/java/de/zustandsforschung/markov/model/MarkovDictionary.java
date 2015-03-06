@@ -20,9 +20,8 @@ public class MarkovDictionary<T> implements Serializable {
 	}
 
 	public Occurrences<T> getOrCreate(final Tokens<T> tokens) {
-		if (dictionary.get(tokens) == null) {
+		if (dictionary.get(tokens) == null)
 			dictionary.put(tokens.duplicate(), new Occurrences<T>());
-		}
 
 		return dictionary.get(tokens);
 	}
@@ -35,19 +34,27 @@ public class MarkovDictionary<T> implements Serializable {
 		return dictionary.keySet();
 	}
 
-	public double probability(final T after, final T... tokens) {
-		Occurrences<T> occurrences = get(new Tokens<T>(tokens));
+	public double probability(final T after, final Tokens<T> tokens) {
+		Occurrences<T> occurrences = get(tokens);
 		if (occurrences != null) {
 			Double count = occurrences.get(after);
-			if (count != null) {
+			if (count != null)
 				return occurrences.calculateProbability(count);
-			}
 		}
 		return 0.0;
 	}
 
+	public double probability(final T after, final T... tokens) {
+		return probability(after, new Tokens<T>(tokens));
+	}
+
 	public int getOrder() {
 		return order;
+	}
+
+	@Override
+	public String toString() {
+		return "n=" + order + ", " + dictionary.toString();
 	}
 
 }
