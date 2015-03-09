@@ -15,6 +15,18 @@ public class Occurrences<T> implements Serializable {
 		occurrences = new HashMap<T, Double>();
 	}
 
+	/**
+	 * Returns the T with the highest probability.
+	 */
+	public T highestProbability() {
+		T winner = null;
+		for (Entry<T, Double> e : entrySet())
+			if ((winner == null) || (e.getValue() > occurrences.get(winner)))
+				winner = e.getKey();
+
+		return winner;
+	}
+
 	public Set<T> keySet() {
 		return occurrences.keySet();
 	}
