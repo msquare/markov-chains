@@ -2,8 +2,8 @@ package de.zustandsforschung.markov.random;
 
 public interface RandomGenerator {
 
-	Double nextDouble();
+    Double nextDouble();
 
-	Integer nextInteger(int n);
+    Integer nextInteger(int n);
 
 }

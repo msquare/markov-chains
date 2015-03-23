@@ -6,12 +6,12 @@ import org.junit.Test;
 
 public class RandomGeneratorTest {
 
-	@Test
-	public void testNextRandom() {
-		RandomGenerator randomGen = new RandomGeneratorImpl();
-		Double random = randomGen.nextDouble();
-		assertTrue(random >= 0.0);
-		assertTrue(random < 1.0);
-	}
+    @Test
+    public void testNextRandom() {
+        RandomGenerator randomGen = new RandomGeneratorImpl();
+        Double random = randomGen.nextDouble();
+        assertTrue(random >= 0.0);
+        assertTrue(random < 1.0);
+    }
 
 }

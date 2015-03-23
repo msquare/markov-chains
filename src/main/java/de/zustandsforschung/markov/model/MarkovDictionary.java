@@ -6,55 +6,55 @@ import java.util.Map;
 import java.util.Set;
 
 public class MarkovDictionary<T> implements Serializable {
-	private static final long serialVersionUID = -2463181382981797814L;
-	private final Map<Tokens<T>, Occurrences<T>> dictionary;
-	private final int order;
+    private static final long serialVersionUID = -2463181382981797814L;
+    private final Map<Tokens<T>, Occurrences<T>> dictionary;
+    private final int order;
 
-	public MarkovDictionary() {
-		this(1);
-	}
+    public MarkovDictionary() {
+        this(1);
+    }
 
-	public MarkovDictionary(final int order) {
-		dictionary = new HashMap<Tokens<T>, Occurrences<T>>();
-		this.order = order;
-	}
+    public MarkovDictionary(final int order) {
+        dictionary = new HashMap<Tokens<T>, Occurrences<T>>();
+        this.order = order;
+    }
 
-	public Occurrences<T> getOrCreate(final Tokens<T> tokens) {
-		if (dictionary.get(tokens) == null)
-			dictionary.put(tokens.duplicate(), new Occurrences<T>());
+    public Occurrences<T> getOrCreate(final Tokens<T> tokens) {
+        if (dictionary.get(tokens) == null)
+            dictionary.put(tokens.duplicate(), new Occurrences<T>());
 
-		return dictionary.get(tokens);
-	}
+        return dictionary.get(tokens);
+    }
 
-	public Occurrences<T> get(final Tokens<T> tokens) {
-		return dictionary.get(tokens);
-	}
+    public Occurrences<T> get(final Tokens<T> tokens) {
+        return dictionary.get(tokens);
+    }
 
-	public Set<Tokens<T>> allTokens() {
-		return dictionary.keySet();
-	}
+    public Set<Tokens<T>> allTokens() {
+        return dictionary.keySet();
+    }
 
-	public double probability(final T after, final Tokens<T> tokens) {
-		Occurrences<T> occurrences = get(tokens);
-		if (occurrences != null) {
-			Double count = occurrences.get(after);
-			if (count != null)
-				return occurrences.calculateProbability(count);
-		}
-		return 0.0;
-	}
+    public double probability(final T after, final Tokens<T> tokens) {
+        Occurrences<T> occurrences = get(tokens);
+        if (occurrences != null) {
+            Double count = occurrences.get(after);
+            if (count != null)
+                return occurrences.calculateProbability(count);
+        }
+        return 0.0;
+    }
 
-	public double probability(final T after, final T... tokens) {
-		return probability(after, new Tokens<T>(tokens));
-	}
+    public double probability(final T after, final T... tokens) {
+        return probability(after, new Tokens<T>(tokens));
+    }
 
-	public int getOrder() {
-		return order;
-	}
+    public int getOrder() {
+        return order;
+    }
 
-	@Override
-	public String toString() {
-		return "n=" + order + ", " + dictionary.toString();
-	}
+    @Override
+    public String toString() {
+        return "n=" + order + ", " + dictionary.toString();
+    }
 
 }

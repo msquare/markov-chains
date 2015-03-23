@@ -5,10 +5,10 @@ import de.zustandsforschung.markov.random.RandomGenerator;
 
 public interface MarkovTextGenerator {
 
-	String generate(int numTokens);
+    String generate(int numTokens);
 
-	String next(Tokens<String> tokens);
+    String next(Tokens<String> tokens);
 
-	void setRandomGenerator(RandomGenerator randomGenerator);
+    void setRandomGenerator(RandomGenerator randomGenerator);
 
 }
