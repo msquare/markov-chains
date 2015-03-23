@@ -12,14 +12,14 @@ import de.zustandsforschung.markov.random.RandomGeneratorImpl;
 
 public class MarkovTextGeneratorTest {
 
-	private MarkovDictionaryBuilder markovDictionaryBuilder;
-	private MarkovDictionary markovDictionary;
+	private MarkovDictionaryBuilder<String> markovDictionaryBuilder;
+	private MarkovDictionary<String> markovDictionary;
 
 	@Before
 	public void setUp() {
-		markovDictionary = new MarkovDictionary();
-		markovDictionaryBuilder = new MarkovDictionaryBuilderImpl(
-				markovDictionary);
+		markovDictionary = new MarkovDictionary<String>();
+		markovDictionaryBuilder = new MarkovDictionaryBuilderImpl<String>(
+				markovDictionary, false);
 	}
 
 	@Test
@@ -32,7 +32,7 @@ public class MarkovTextGeneratorTest {
 
 	@Test
 	public void testGenerateSingle() {
-		markovDictionaryBuilder.addTokens(new Tokens("one"));
+		markovDictionaryBuilder.addTokens(new Tokens<String>("one"));
 
 		MarkovTextGenerator generator = new MarkovTextGeneratorImpl(
 				markovDictionary);
@@ -42,7 +42,7 @@ public class MarkovTextGeneratorTest {
 
 	@Test
 	public void testGenerateTwo() {
-		markovDictionaryBuilder.addTokens(new Tokens("one", "two"));
+		markovDictionaryBuilder.addTokens(new Tokens<String>("one", "two"));
 
 		MarkovTextGenerator generator = new MarkovTextGeneratorImpl(
 				markovDictionary);
@@ -52,10 +52,11 @@ public class MarkovTextGeneratorTest {
 
 	@Test
 	public void testGenerateOrder2() {
-		markovDictionary = new MarkovDictionary(2);
-		markovDictionaryBuilder = new MarkovDictionaryBuilderImpl(
-				markovDictionary);
-		markovDictionaryBuilder.addTokens(new Tokens("one", "two", "three"));
+		markovDictionary = new MarkovDictionary<String>(2);
+		markovDictionaryBuilder = new MarkovDictionaryBuilderImpl<String>(
+				markovDictionary, false);
+		markovDictionaryBuilder.addTokens(new Tokens<String>("one", "two",
+				"three"));
 
 		MarkovTextGenerator generator = new MarkovTextGeneratorImpl(
 				markovDictionary);
@@ -65,7 +66,7 @@ public class MarkovTextGeneratorTest {
 
 	@Test
 	public void testGenerateSpacesBeforePunctuation() {
-		markovDictionaryBuilder.addTokens(new Tokens("one", ","));
+		markovDictionaryBuilder.addTokens(new Tokens<String>("one", ","));
 
 		MarkovTextGenerator generator = new MarkovTextGeneratorImpl(
 				markovDictionary);
@@ -75,7 +76,8 @@ public class MarkovTextGeneratorTest {
 
 	@Test
 	public void testGenerateUseStartToken() {
-		markovDictionaryBuilder.addTokens(new Tokens("one", "two", "three"));
+		markovDictionaryBuilder.addTokens(new Tokens<String>("one", "two",
+				"three"));
 
 		MarkovTextGenerator generator = new MarkovTextGeneratorImpl(
 				markovDictionary, "two");
@@ -85,10 +87,11 @@ public class MarkovTextGeneratorTest {
 
 	@Test
 	public void testGenerateUseStartTokenOrder2() {
-		markovDictionary = new MarkovDictionary(2);
-		markovDictionaryBuilder = new MarkovDictionaryBuilderImpl(
-				markovDictionary);
-		markovDictionaryBuilder.addTokens(new Tokens("one", "two", "three"));
+		markovDictionary = new MarkovDictionary<String>(2);
+		markovDictionaryBuilder = new MarkovDictionaryBuilderImpl<String>(
+				markovDictionary, false);
+		markovDictionaryBuilder.addTokens(new Tokens<String>("one", "two",
+				"three"));
 
 		MarkovTextGenerator generator = new MarkovTextGeneratorImpl(
 				markovDictionary, "two");
@@ -99,11 +102,11 @@ public class MarkovTextGeneratorTest {
 	@Test
 	public void testGenerateUseStartTokenOrder2With2Candidates()
 			throws Exception {
-		markovDictionary = new MarkovDictionary(2);
-		markovDictionaryBuilder = new MarkovDictionaryBuilderImpl(
-				markovDictionary);
-		markovDictionaryBuilder.addTokens(new Tokens("something", "candidate",
-				"something else", "candidate", "start"));
+		markovDictionary = new MarkovDictionary<String>(2);
+		markovDictionaryBuilder = new MarkovDictionaryBuilderImpl<String>(
+				markovDictionary, false);
+		markovDictionaryBuilder.addTokens(new Tokens<String>("something",
+				"candidate", "something else", "candidate", "start"));
 
 		MarkovTextGenerator generator = new MarkovTextGeneratorImpl(
 				markovDictionary, "candidate");

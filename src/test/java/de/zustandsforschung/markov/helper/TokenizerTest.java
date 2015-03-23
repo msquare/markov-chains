@@ -12,29 +12,30 @@ public class TokenizerTest {
 	public void testTokenizeEmpty() {
 		String input = "";
 		Tokenizer markovChain = new TokenizerImpl();
-		assertEquals(new Tokens(), markovChain.tokenize(input));
+		assertEquals(new Tokens<String>(), markovChain.tokenize(input));
 	}
 
 	@Test
 	public void testTokenizeSingle() {
 		String input = "Word";
 		Tokenizer markovChain = new TokenizerImpl();
-		assertEquals(new Tokens("Word"), markovChain.tokenize(input));
+		assertEquals(new Tokens<String>("Word"), markovChain.tokenize(input));
 	}
 
 	@Test
 	public void testTokenizeWithSpace() {
 		String input = "Two Words";
 		Tokenizer markovChain = new TokenizerImpl();
-		assertEquals(new Tokens("Two", "Words"), markovChain.tokenize(input));
+		assertEquals(new Tokens<String>("Two", "Words"),
+				markovChain.tokenize(input));
 	}
 
 	@Test
 	public void testTokenizeWithPunctuation() {
 		String input = "Two. Words, only!\"more";
 		Tokenizer markovChain = new TokenizerImpl();
-		assertEquals(new Tokens("Two", ".", "Words", ",", "only", "!", "\"",
-				"more"), markovChain.tokenize(input));
+		assertEquals(new Tokens<String>("Two", ".", "Words", ",", "only", "!",
+				"\"", "more"), markovChain.tokenize(input));
 	}
 
 }

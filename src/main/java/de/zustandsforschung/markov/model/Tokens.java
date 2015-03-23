@@ -58,6 +58,7 @@ public class Tokens<T> implements Iterable<T>, Serializable {
 		return result;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean equals(final Object obj) {
 		if (this == obj)

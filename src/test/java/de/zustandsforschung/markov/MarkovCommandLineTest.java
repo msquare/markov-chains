@@ -23,13 +23,15 @@ public class MarkovCommandLineTest {
 		out.write("one two");
 		out.close();
 
-		MarkovDictionary markovDictionary = new MarkovDictionary(1);
-		MarkovDictionaryBuilder markovDictionaryBuilder = new MarkovDictionaryBuilderImpl(markovDictionary);
+		MarkovDictionary<String> markovDictionary = new MarkovDictionary<String>(
+				1);
+		MarkovDictionaryBuilder<String> markovDictionaryBuilder = new MarkovDictionaryBuilderImpl<String>(
+				markovDictionary, false);
 		MarkovTextGenerator markovTextGenerator = new MarkovTextGeneratorImpl(
 				markovDictionary);
 		markovTextGenerator.setRandomGenerator(new RandomGeneratorImpl());
 		MarkovCommandLine.fromFile(markovDictionaryBuilder, tempFile);
 
-		assertEquals("two", markovTextGenerator.next(new Tokens("one")));
+		assertEquals("two", markovTextGenerator.next(new Tokens<String>("one")));
 	}
 }
